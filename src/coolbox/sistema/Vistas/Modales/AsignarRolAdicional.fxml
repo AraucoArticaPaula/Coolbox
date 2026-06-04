@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="340.0" prefWidth="450.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tu.paquete.ModalAsignarRolController">
+   <children>
+      <VBox prefHeight="340.0" prefWidth="450.0" spacing="22.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+         <children>
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Asignar rol adicional" textFill="#222222">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Conceda un nuevo rol de acceso a la cuenta de un usuario existente." textFill="#666666">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            
+            <VBox spacing="18.0" VBox.vgrow="ALWAYS">
+               <children>
+                  
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Cuenta de usuario *" textFill="#444444" />
+                        <ComboBox fx:id="cmbUsuario" maxWidth="Infinity" prefHeight="38.0" promptText="Seleccione el nombre de usuario..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Nuevo rol a otorgar *" textFill="#444444" />
+                        <ComboBox fx:id="cmbRol" maxWidth="Infinity" prefHeight="38.0" promptText="Seleccione el rol del sistema..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                     </children>
+                  </VBox>
+                  
+               </children>
+            </VBox>
+            
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarAsignacionRol" prefHeight="36.0" prefWidth="140.0" style="-fx-background-color: #6C757D; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Otorgar Rol" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

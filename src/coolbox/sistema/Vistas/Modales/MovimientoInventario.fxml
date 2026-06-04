@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="500.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tu.paquete.ModalMovimientoInventarioController">
+   <children>
+      <VBox prefHeight="420.0" prefWidth="500.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+         <children>
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Registrar movimiento de inventario" textFill="#222222">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Ingrese una entrada (alta) o salida (baja) manual de mercadería." textFill="#666666">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            
+            <GridPane hgap="15.0" vgap="15.0" VBox.vgrow="ALWAYS">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Tienda Afectada *" textFill="#444444" />
+                        <ComboBox fx:id="cmbTienda" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccionar sucursal..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox spacing="5.0" GridPane.columnIndex="1">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Tipo de Movimiento *" textFill="#444444" />
+                        <ComboBox fx:id="cmbTipoMovimiento" maxWidth="Infinity" prefHeight="35.0" promptText="Alta / Baja" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="alta" />
+                                 <String fx:value="baja" />
+                              </FXCollections>
+                           </items>
+                        </ComboBox>
+                     </children>
+                  </VBox>
+                  
+                  <VBox spacing="5.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Producto *" textFill="#444444" />
+                        <ComboBox fx:id="cmbProducto" maxWidth="Infinity" prefHeight="35.0" promptText="Buscar producto..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Cantidad *" textFill="#444444" />
+                        <TextField fx:id="txtCantidad" prefHeight="35.0" promptText="Ej. 15" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Motivo del Ajuste *" textFill="#444444" />
+                        <TextField fx:id="txtMotivo" prefHeight="35.0" promptText="Ej. Ingreso por importación / Retiro por mercadería dañada" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                     </children>
+                  </VBox>
+                  
+               </children>
+            </GridPane>
+            
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarMovimiento" prefHeight="35.0" prefWidth="150.0" style="-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Aplicar Ajuste" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

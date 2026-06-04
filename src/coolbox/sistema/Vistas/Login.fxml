@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<!--
+  ================================================================
+  LOGIN.fxml — Sistema Multi-Tienda COOLBOX
+  ================================================================
+  Tablas relacionadas:
+    - USUARIOS       (nombre_usuario, contrasena, estado)
+    - EMPLEADOS      (nombres, apellidos, id_tienda)
+    - USUARIOS_ROLES (id_usuario, id_rol)
+    - ROLES          (nombre_rol)
+    - TIENDAS        (nombre_tienda)
+
+  Controlador : com.coolbox.controllers.LoginController
+  CSS         : /com/coolbox/css/login.css
+  ================================================================
+-->
+
+<HBox prefHeight="600" prefWidth="1000" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coolbox.controllers.LoginController">
+
+    <!-- ══════════════════════════════════════════════════════
+         PANEL IZQUIERDO — Negro con logo
+         Reemplaza la ruta de image con tu archivo de logo
+         Ej: @../images/logo_coolbox.png
+         ══════════════════════════════════════════════════════ -->
+    <VBox alignment="CENTER" minWidth="420" prefHeight="600.0" prefWidth="500.0" spacing="20" style="-fx-background-color: black;" styleClass="panel-left">
+
+        <ImageView fx:id="imgLogo" fitHeight="333.0" fitWidth="358.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <!-- ⬇ Cambia esta ruta por la de tu logo -->
+                <Image url="@../../LOGO%20COOLBOX.png" />
+            </image>
+        </ImageView>
+
+    </VBox>
+
+    <!-- ══════════════════════════════════════════════════════
+         PANEL DERECHO — Blanco con formulario
+         ══════════════════════════════════════════════════════ -->
+    <VBox alignment="CENTER" styleClass="panel-right" HBox.hgrow="ALWAYS">
+
+        <VBox alignment="TOP_LEFT" maxWidth="380" prefWidth="380" spacing="0" styleClass="form-card">
+
+            <!-- Título -->
+            <Label prefHeight="18.0" prefWidth="134.0" styleClass="form-title" text="BIENVENIDO">
+            <font>
+               <Font name="System Bold" size="21.0" />
+            </font></Label>
+            <Region prefHeight="6" />
+            <Label styleClass="form-subtitle" text="Inicia sesión en tu cuenta" />
+
+            <Region prefHeight="28" />
+
+            <!-- ── Usuario ── -->
+            <Label styleClass="field-label" text="Usuario" />
+            <Region prefHeight="6" />
+            <TextField fx:id="txtUsuario" promptText="JPEREZ" styleClass="input-field" />
+
+            <Region prefHeight="16" />
+
+            <!-- ── Contraseña ── -->
+            <Label styleClass="field-label" text="Contraseña" />
+            <Region prefHeight="6" />
+            <PasswordField fx:id="txtPassword" promptText="••••••••" styleClass="input-field" />
+
+            <Region prefHeight="12" />
+
+            <!-- ── Recordarme + link olvidé ── -->
+            <HBox alignment="CENTER_LEFT">
+                <CheckBox fx:id="chkRecordarme" styleClass="check-recordar" text="Recordarme" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label onMouseClicked="#onOlvidePassword" styleClass="link-olvide" text="¿Olvidaste tu contraseña?" />
+            </HBox>
+
+            <Region prefHeight="6" />
+
+            <!-- ── Banner error global ── -->
+            <HBox fx:id="paneError" alignment="CENTER_LEFT" managed="false" spacing="8" styleClass="error-banner" visible="false">
+                <padding><Insets bottom="10" left="14" right="14" top="10" /></padding>
+                <Label styleClass="error-icon" text="⚠" />
+                <Label fx:id="lblErrorGlobal" maxWidth="300" styleClass="error-text" text="" wrapText="true" />
+            </HBox>
+
+            <Region prefHeight="20" />
+
+            <!-- ── Botón principal ── -->
+            <Button fx:id="btnLogin" defaultButton="true" maxWidth="Infinity" onAction="#onLogin" style="-fx-background-color: red;" styleClass="btn-login" text="Iniciar sesión" textFill="WHITE" />
+
+            <!-- ── Loader ── -->
+            <HBox fx:id="paneLoading" alignment="CENTER" managed="false" spacing="10" visible="false">
+                <Region prefHeight="10" />
+                <ProgressIndicator fx:id="loader" prefHeight="18" prefWidth="18" styleClass="loader" />
+                <Label styleClass="loading-text" text="Verificando credenciales..." />
+            </HBox>
+
+            <Region prefHeight="28" />
+
+            <!-- ── Footer ── -->
+            <HBox alignment="CENTER">
+                <Label styleClass="footer-copy" text="© 2026 Coolbox · v1.1.0" />
+            </HBox>
+
+        </VBox>
+    </VBox>
+
+</HBox>

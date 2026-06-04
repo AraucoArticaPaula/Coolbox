@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="460.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tu.paquete.ModalRegistrarHorarioController">
+   <children>
+      <VBox prefHeight="420.0" prefWidth="460.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+         </padding>
+         <children>
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Asignar Horario de Trabajo" textFill="#222222">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <Label text="Establezca la jornada horaria para el empleado seleccionado." textFill="#666666">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            
+            <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+               <children>
+                  
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Empleado *" textFill="#444444" />
+                        <ComboBox fx:id="cmbEmpleado" maxWidth="Infinity" prefHeight="38.0" promptText="Seleccionar empleado..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                     </children>
+                  </VBox>
+                  
+                  <VBox spacing="6.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold;" text="Día de la Semana *" textFill="#444444" />
+                        <ComboBox fx:id="cmbDiaSemana" maxWidth="Infinity" prefHeight="38.0" promptText="Seleccionar día laboral..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="Lunes" />
+                                 <String fx:value="Martes" />
+                                 <String fx:value="Miercoles" />
+                                 <String fx:value="Jueves" />
+                                 <String fx:value="Viernes" />
+                                 <String fx:value="Sabado" />
+                                 <String fx:value="Domingo" />
+                              </FXCollections>
+                           </items>
+                        </ComboBox>
+                     </children>
+                  </VBox>
+                  
+                  <HBox spacing="15.0">
+                     <children>
+                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Hora de Entrada *" textFill="#444444" />
+                              <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                 <children>
+                                    <ComboBox fx:id="cmbHoraInicio" prefHeight="38.0" prefWidth="85.0" promptText="HH" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-background-color: #FAFAFA;" />
+                                    <Label text=":" textFill="#666666">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cmbMinutoInicio" prefHeight="38.0" prefWidth="85.0" promptText="MM" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-background-color: #FAFAFA;" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        
+                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Hora de Salida *" textFill="#444444" />
+                              <HBox alignment="CENTER_LEFT" spacing="5.0">
+                                 <children>
+                                    <ComboBox fx:id="cmbHoraFin" prefHeight="38.0" prefWidth="85.0" promptText="HH" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-background-color: #FAFAFA;" />
+                                    <Label text=":" textFill="#666666">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="cmbMinutoFin" prefHeight="38.0" prefWidth="85.0" promptText="MM" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-background-color: #FAFAFA;" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  
+               </children>
+            </VBox>
+            
+            <HBox alignment="CENTER_RIGHT" spacing="12.0">
+               <children>
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
+                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarHorario" prefHeight="36.0" prefWidth="130.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Asignar Turno" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
