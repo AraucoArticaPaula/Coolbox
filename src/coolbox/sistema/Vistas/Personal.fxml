@@ -17,9 +17,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tu.paquete.PersonalController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coolbox.sistema.Controladores.PersonalController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="9.0" prefHeight="600.0" prefWidth="210.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="210.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: transparent;">
                <children>
@@ -37,13 +37,13 @@
                         <Insets bottom="10.0" left="8.0" right="8.0" top="10.0" />
                      </padding>
                      <children>
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: #CC0000; -fx-text-fill: #FFFFFF; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👥  Personal" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🔐  Seguridad" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📦  Almacén" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  💰  Operaciones" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📊  Reportes" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAPersonal" style="-fx-background-color: #CC0000; -fx-text-fill: #FFFFFF; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👥  Personal" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irASeguridad" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🔐  Seguridad" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAAlmacen" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📦  Almacén" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAOperaciones" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  💰  Operaciones" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAReportes" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📊  Reportes" />
                         <Region prefHeight="172.0" prefWidth="190.0" />
-                        <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" prefWidth="216.0" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🚪  Cerrar sesión" />
+                        <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" prefWidth="216.0" onAction="#cerrarSesion" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🚪  Cerrar sesión" />
                      </children>
                   </VBox>
                </content>
@@ -51,23 +51,24 @@
          </children>
       </VBox>
       
-      <VBox layoutX="267.0" layoutY="33.0" prefHeight="600.0" prefWidth="790.0" style="-fx-background-color: #F8F9FA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="600.0" prefWidth="790.0" style="-fx-background-color: #F8F9FA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="750.0" style="-fx-background-color: white;">
+            <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="750.0" style="-fx-background-color: white; -fx-padding: 0 20 0 0;">
                <children>
                   <Label alignment="CENTER" prefHeight="31.0" prefWidth="140.0" text="Personal" textFill="#222222">
                      <font>
                         <Font name="System Bold" size="21.0" />
                      </font>
                   </Label>
+                  <Region HBox.hgrow="ALWAYS" />
+                  <Label fx:id="lblTiendaPrincipal" style="-fx-background-color: #E8F5E9; -fx-text-fill: #2E7D32; -fx-padding: 6 14 6 14; -fx-background-radius: 6; -fx-font-weight: bold; -fx-font-size: 13px; -fx-border-color: #C8E6C9; -fx-border-radius: 6;" text="🏪 SUCURSAL: CARGANDO..." />
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
             
-            <TabPane prefHeight="550.0" prefWidth="790.0" style="-fx-tab-min-width: 150px; -fx-tab-max-width: 180px; -fx-tab-min-height: 35px;" stylesheets="@estilo_tabs_limpio.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <TabPane prefHeight="550.0" prefWidth="790.0" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
               <tabs>
-                
                 <Tab text="👥 Lista de Empleados">
                      <content>
                         <VBox spacing="15.0">
@@ -83,17 +84,16 @@
                                     <Button fx:id="btnBajaEmpleado" mnemonicParsing="false" onAction="#eliminarEmpleado" prefHeight="32.0" style="-fx-background-color: #DC3545; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="❌ Dar de Baja" />
                                  </children>
                               </HBox>
-                              
-                              <TableView fx:id="tblEmpleados" prefHeight="400.0" prefWidth="750.0" style="-fx-background-radius: 8; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="tblEmpleados" prefHeight="400.0" prefWidth="750.0" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="colId" prefWidth="45.0" text="ID" />
                                   <TableColumn fx:id="colNombres" prefWidth="130.0" text="Nombres" />
-                                    <TableColumn fx:id="colApellidos" prefWidth="130.0" text="Apellidos" />
-                                    <TableColumn fx:id="colDNI" prefWidth="85.0" text="DNI" />
-                                    <TableColumn fx:id="colCelular" prefWidth="90.0" text="Celular" />
-                                    <TableColumn fx:id="colCorreo" prefWidth="140.0" text="Correo" />
-                                    <TableColumn fx:id="colTipo" prefWidth="50.0" text="Tipo" />
-                                    <TableColumn fx:id="colTienda" prefWidth="80.0" text="ID Tienda" />
+                                  <TableColumn fx:id="colApellidos" prefWidth="130.0" text="Apellidos" />
+                                  <TableColumn fx:id="colDNI" prefWidth="85.0" text="DNI" />
+                                  <TableColumn fx:id="colCelular" prefWidth="90.0" text="Celular" />
+                                  <TableColumn fx:id="colCorreo" prefWidth="140.0" text="Correo" />
+                                  <TableColumn fx:id="colTipo" prefWidth="50.0" text="Tipo" />
+                                  <TableColumn fx:id="colTienda" prefWidth="80.0" text="ID Tienda" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -102,7 +102,7 @@
                            </children>
                         </VBox>
                      </content>
-                  </Tab>
+                </Tab>
                 
                 <Tab text="📅 Horarios y Cumplimiento">
                      <content>
@@ -124,8 +124,8 @@
                                       <columns>
                                         <TableColumn fx:id="colHorarioEmpleado" prefWidth="140.0" text="Empleado" />
                                         <TableColumn fx:id="colHorarioDia" prefWidth="85.0" text="Día" />
-                                          <TableColumn fx:id="colHorarioInicio" prefWidth="70.0" text="Inicio" />
-                                          <TableColumn fx:id="colHorarioFin" prefWidth="70.0" text="Fin" />
+                                        <TableColumn fx:id="colHorarioInicio" prefWidth="70.0" text="Inicio" />
+                                        <TableColumn fx:id="colHorarioFin" prefWidth="70.0" text="Fin" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -148,7 +148,7 @@
                                         <TableColumn fx:id="colCumpEmpleado" prefWidth="130.0" text="Empleado" />
                                         <TableColumn fx:id="colCumpHoras" prefWidth="70.0" text="Horas" />
                                         <TableColumn fx:id="colCumpPeriodo" prefWidth="80.0" text="Período" />
-                                          <TableColumn fx:id="colCumpEstado" prefWidth="85.0" text="Estado" />
+                                        <TableColumn fx:id="colCumpEstado" prefWidth="85.0" text="Estado" />
                                       </columns>
                                        <columnResizePolicy>
                                           <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

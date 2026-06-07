@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,59 +11,74 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="450.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tu.paquete.ModalValidarCumplimientoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="500.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coolbox.sistema.Controladores.Modales.ModalValidarCumplimientoController">
    <children>
-      <VBox prefHeight="380.0" prefWidth="450.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="420.0" prefWidth="500.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
          <children>
-            <VBox spacing="5.0">
+            <VBox spacing="4.0">
                <children>
-                  <Label text="Validar cumplimiento de horas" textFill="#222222">
+                  <Label text="Auditoría y Validación de Horas" textFill="#222222">
                      <font>
-                        <Font name="System Bold" size="20.0" />
+                        <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label text="Evalúa si el empleado cumplió con las horas requeridas según su jornada." textFill="#666666">
+                  <Label text="Seleccione el rango semanal e ingrese manualmente el tiempo físico que cumplió el colaborador (Solo se permiten números)." textFill="#666666" wrapText="true">
                      <font>
-                        <Font size="11.5" />
+                        <Font size="11.0" />
                      </font>
                   </Label>
                </children>
             </VBox>
             
-            <VBox spacing="15.0" VBox.vgrow="ALWAYS">
+            <VBox spacing="12.0" VBox.vgrow="ALWAYS">
                <children>
-                  
-                  <VBox spacing="6.0">
+                  <VBox spacing="5.0">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Empleado a Evaluar *" textFill="#444444" />
-                        <ComboBox fx:id="cmbEmpleado" maxWidth="Infinity" prefHeight="38.0" promptText="Seleccionar empleado..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                        <Label style="-fx-font-weight: bold;" text="Colaborador a Evaluar *" textFill="#444444" />
+                        <ComboBox fx:id="cmbEmpleado" onAction="#onEmpleadoSeleccionado" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccionar empleado..." style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
                      </children>
                   </VBox>
                   
-                  <VBox spacing="6.0">
+                  <VBox spacing="5.0">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Período de Evaluación *" textFill="#444444" />
-                        <TextField fx:id="txtPeriodo" prefHeight="38.0" promptText="Ej. 2026-W23 o Junio-Semana1" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                        <Label style="-fx-font-weight: bold;" text="Seleccionar Fecha de la Semana *" textFill="#444444" />
+                        <DatePicker fx:id="dpFechaSemana" onAction="#onFechaSeleccionada" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccione cualquier día de la semana a auditar..." style="-fx-background-radius: 5; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
+                     </children>
+                  </VBox>
+
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Rango de Período Semanal Calculado" textFill="#666666" />
+                        <TextField fx:id="txtPeriodo" editable="false" prefHeight="35.0" style="-fx-background-color: #E9ECEF; -fx-background-radius: 5; -fx-border-color: #CED4DA; -fx-border-radius: 5; -fx-font-weight: bold;" />
                      </children>
                   </VBox>
                   
-                  <VBox spacing="6.0">
+                  <HBox spacing="15.0">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Total de Horas Trabajadas en la Semana *" textFill="#444444" />
-                        <TextField fx:id="txtHorasSemana" prefHeight="38.0" promptText="Ej. 45.50" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                        <VBox HBox.hgrow="ALWAYS" spacing="5.0">
+                           <children>
+                              <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Ingresar Horas Realizadas *" textFill="#444444" />
+                              <TextField fx:id="txtHorasCumplidas" onKeyReleased="#evaluarTiempoIngresado" prefHeight="35.0" promptText="Ej. 47" style="-fx-background-radius: 5; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS" spacing="5.0">
+                           <children>
+                              <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Ingresar Minutos Realizados *" textFill="#444444" />
+                              <TextField fx:id="txtMinutosCumplidos" onKeyReleased="#evaluarTiempoIngresado" prefHeight="35.0" promptText="Ej. 30" style="-fx-background-radius: 5; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-                  
+                  </HBox>
                </children>
             </VBox>
             
             <HBox alignment="CENTER_RIGHT" spacing="12.0">
                <children>
-                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
-                  <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarValidacion" prefHeight="36.0" prefWidth="140.0" style="-fx-background-color: #17A2B8; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Validar Horas" />
+                  <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
+                  <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardarValidacion" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="✓ Registrar Auditoría" />
                </children>
             </HBox>
          </children>

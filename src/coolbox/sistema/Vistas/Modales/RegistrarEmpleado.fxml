@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="500.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tu.paquete.ModalRegistrarEmpleadoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="500.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coolbox.sistema.Controladores.Modales.ModalRegistrarEmpleadoController">
    <children>
       <VBox prefHeight="550.0" prefWidth="500.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
@@ -27,9 +27,9 @@
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Label text="Complete los datos obligatorios para ingresar al personal al sistema." textFill="#666666">
+                  <Label fx:id="lblTiendaDestinoModal" text="📍 Registrando en sucursal: Cargando sede..." textFill="#1565C0">
                      <font>
-                        <Font size="12.0" />
+                        <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
                </children>

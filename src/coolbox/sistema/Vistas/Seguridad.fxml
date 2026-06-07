@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tu.paquete.SeguridadController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coolbox.sistema.Controladores.SeguridadController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="9.0" prefHeight="600.0" prefWidth="210.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -37,13 +37,13 @@
                         <Insets bottom="10.0" left="8.0" right="8.0" top="10.0" />
                      </padding>
                      <children>
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👥  Personal" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irPersonal" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👥  Personal" />
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: #CC0000; -fx-text-fill: #FFFFFF; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🔐  Seguridad" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📦  Almacén" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  💰  Operaciones" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📊  Reportes" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAlmacen" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📦  Almacén" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irOperaciones" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  💰  Operaciones" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irReportes" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📊  Reportes" />
                         <Region prefHeight="172.0" prefWidth="190.0" />
-                        <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" prefWidth="216.0" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🚪  Cerrar sesión" />
+                        <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" prefWidth="216.0" onAction="#cerrarSesion" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🚪  Cerrar sesión" />
                      </children>
                   </VBox>
                </content>
@@ -99,7 +99,7 @@
                      </content>
                   </Tab>
                 
-                <Tab text="🛡️ Matriz de Roles">
+                <Tab text="  Matriz de Roles">
                      <content>
                         <HBox spacing="15.0">
                            <padding>
