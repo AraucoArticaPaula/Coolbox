@@ -2,21 +2,15 @@ package coolbox.sistema.Controladores.Modales;
 
 import coolbox.sistema.Conexion.ConexionDB;
 import coolbox.sistema.Controladores.SesionUsuario;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -24,33 +18,42 @@ import java.util.ResourceBundle;
 public class ModalRegistrarEmpleadoController implements Initializable {
 
     @FXML private TextField txtNombres, txtApellidos, txtDNI, txtCelular, txtCorreo, txtDireccion;
-    @FXML private ComboBox<String> cmbTienda; // Ahora se llenará con Nombres de Tiendas
+    @FXML private ComboBox<String> cmbTienda; 
     @FXML private ComboBox<String> cmbTipoEmpleado; 
     @FXML private ComboBox<String> cmbCargo; 
     @FXML private Label lblTiendaDestinoModal; 
     @FXML private Button btnCancelar;
 
     private int tiendaIdActual = 1;
-    private String nombreTiendaActual = "";
-    
-    // Diccionario para relacionar de forma interna: "Nombre de Tienda" -> ID Numérico
     private final Map<String, Integer> mapaTiendas = new HashMap<>();
+    
+    // Lista base de cargos para restaurar al cambiar a FT
+    private final ObservableList<String> cargosCompletos = FXCollections.observableArrayList("GERENTE", "SUBGERENTE", "VENDEDOR");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tiendaIdActual = SesionUsuario.getIdTiendaUsuarioConectado();
         
         cmbTipoEmpleado.getItems().addAll("FT", "PT");
-        cmbCargo.getItems().addAll("GERENTE", "SUBGERENTE", "VENDEDOR");
+        cmbCargo.setItems(cargosCompletos);
 
-        // Cargar las tiendas y configurar el ComboBox con nombres reales
+        // --- LÓGICA: RESTRICCIÓN DE CARGOS PARA PT ---
+        cmbTipoEmpleado.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if ("PT".equals(newVal)) {
+                cmbCargo.setItems(FXCollections.observableArrayList("VENDEDOR"));
+                cmbCargo.getSelectionModel().select("VENDEDOR");
+            } else {
+                cmbCargo.setItems(cargosCompletos);
+                cmbCargo.getSelectionModel().clearSelection();
+            }
+        });
+
         cargarNombresDeTiendas();
     }
 
     private void cargarNombresDeTiendas() {
         boolean esAdminGlobal = "ADMINISTRADOR".equalsIgnoreCase(SesionUsuario.getRolUsuario());
         
-        // Si es Admin Global ve todas las tiendas, si es Gerente local solo se carga la suya
         String sql = esAdminGlobal ? "SELECT id_tienda, nombre_tienda FROM TIENDAS" 
                                    : "SELECT id_tienda, nombre_tienda FROM TIENDAS WHERE id_tienda = ?";
         
@@ -69,22 +72,21 @@ public class ModalRegistrarEmpleadoController implements Initializable {
                     int id = rs.getInt("id_tienda");
                     String nombre = rs.getString("nombre_tienda").toUpperCase();
                     
-                    // Guardamos en el combo y en nuestro mapa de equivalencias
                     cmbTienda.getItems().add(nombre);
                     mapaTiendas.put(nombre, id);
-                    
-                    if (id == tiendaIdActual) {
-                        nombreTiendaActual = nombre;
-                    }
                 }
             }
             
-            // Auto-seleccionar y bloquear si es un usuario con sede fija
-            if (!esAdminGlobal && !nombreTiendaActual.isEmpty()) {
-                cmbTienda.setValue(nombreTiendaActual);
-                cmbTienda.setDisable(true); // El Gerente no puede cambiar de tienda a su antojo
-                lblTiendaDestinoModal.setText("📍 Registrando en sucursal: " + nombreTiendaActual);
-            } else if (esAdminGlobal) {
+            // --- LÓGICA: AUTO-SELECCIÓN Y BLOQUEO DE TIENDA PARA GERENTES ---
+            if (!esAdminGlobal) {
+                mapaTiendas.forEach((nombre, id) -> {
+                    if (id == tiendaIdActual) {
+                        cmbTienda.setValue(nombre);
+                    }
+                });
+                cmbTienda.setDisable(true); 
+                lblTiendaDestinoModal.setText("📍 Registrando en sucursal: " + cmbTienda.getValue());
+            } else {
                 lblTiendaDestinoModal.setText("🌍 Modo Administrador: Asigne la sucursal destino.");
             }
             
@@ -110,7 +112,6 @@ public class ModalRegistrarEmpleadoController implements Initializable {
             return;
         }
 
-        // CAPTURA INTERNA: Obtenemos el ID numérico real a partir del nombre seleccionado
         int idTiendaDestino = mapaTiendas.get(tiendaSeleccionada);
 
         String sqlEmpleado = "INSERT INTO EMPLEADOS (id_tienda, nombres, apellidos, DNI, celular, correo, direccion, tipo_empleado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -138,7 +139,7 @@ public class ModalRegistrarEmpleadoController implements Initializable {
 
             int idEmpleadoGenerado = -1;
             try (PreparedStatement psEmpleado = connection.prepareStatement(sqlEmpleado, Statement.RETURN_GENERATED_KEYS)) {
-                psEmpleado.setInt(1, idTiendaDestino); // Guardamos el ID correcto en la base de datos
+                psEmpleado.setInt(1, idTiendaDestino);
                 psEmpleado.setString(2, nombres);
                 psEmpleado.setString(3, apellidos);
                 psEmpleado.setString(4, dni);

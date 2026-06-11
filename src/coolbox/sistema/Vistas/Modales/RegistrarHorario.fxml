@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TableColumn?>
@@ -13,9 +14,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="950.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coolbox.sistema.Controladores.Modales.ModalRegistrarHorarioController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="950.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coolbox.sistema.Controladores.Modales.ModalRegistrarHorarioController">
    <children>
-      <VBox prefHeight="650.0" prefWidth="950.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="700.0" prefWidth="950.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </padding>
@@ -40,13 +41,23 @@
                   </Label>
                </children>
             </VBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: #E9ECEF; -fx-padding: 10; -fx-background-radius: 6; -fx-border-color: #DEE2E6; -fx-border-radius: 6;">
+               <children>
+                  <Label style="-fx-font-weight: bold;" text="Vigencia de la Semana:" textFill="#444444" />
+                  <Label text="Fecha Inicio:" />
+                  <DatePicker fx:id="dpFechaInicio" prefWidth="140.0" />
+                  <Label text="Fecha Fin:" />
+                  <DatePicker fx:id="dpFechaFin" prefWidth="140.0" />
+               </children>
+            </HBox>
             
             <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: #F8F9FA; -fx-padding: 12; -fx-background-radius: 6; -fx-border-color: #E2E3E5; -fx-border-radius: 6;">
                <children>
                   <VBox prefWidth="280.0" spacing="5.0">
                      <children>
                         <Label style="-fx-font-weight: bold;" text="Seleccionar Colaborador Activo *" textFill="#444444" />
-                        <ComboBox fx:id="cmbEmpleado" onAction="#onEmpleadoSeleccionado" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccionar empleado..." style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
+                        <ComboBox fx:id="cmbEmpleado" maxWidth="Infinity" onAction="#onEmpleadoSeleccionado" prefHeight="35.0" promptText="Seleccionar empleado..." style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
                      </children>
                   </VBox>
                   <VBox spacing="5.0" HBox.hgrow="ALWAYS">
@@ -86,7 +97,6 @@
                   </VBox>
                   <Button mnemonicParsing="false" onAction="#asignarRangoBloque" prefHeight="32.0" prefWidth="120.0" style="-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold; -fx-cursor: hand;" text="🔹 Pintar" />
                   <Button mnemonicParsing="false" onAction="#limpiarMatriz" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #6C757D; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold; -fx-cursor: hand;" text="🔄 Limpiar" />
-                  
                   <Button mnemonicParsing="false" onAction="#exportarCronogramaAExcel" prefHeight="32.0" prefWidth="130.0" style="-fx-background-color: #17A2B8; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold; -fx-cursor: hand;" text="📥 Exportar Excel" />
                </children>
             </HBox>
@@ -95,7 +105,7 @@
                <children>
                   <TableView fx:id="tblMatrizHorario" prefHeight="320.0" prefWidth="910.0" style="-fx-background-radius: 6;">
                     <columns>
-                      <TableColumn fx:id="colTramo" prefWidth="160.0" text="Tramo Horario" style="-fx-font-weight: bold;" />
+                      <TableColumn fx:id="colTramo" prefWidth="160.0" style="-fx-font-weight: bold;" text="Tramo Horario" />
                       <TableColumn fx:id="colLunes" prefWidth="105.0" text="Lunes" />
                       <TableColumn fx:id="colMartes" prefWidth="105.0" text="Martes" />
                       <TableColumn fx:id="colMiercoles" prefWidth="105.0" text="Miercoles" />

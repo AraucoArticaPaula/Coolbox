@@ -6,15 +6,12 @@ public class MovimientoInventario {
     private int cantidad;
     private String motivo;
     
-    // NUEVOS CAMPOS AGREGADOS PARA INTEGRACIÓN CON EL KÁRDEX
     private String nombreTienda;
     private String nombreUsuario;
     private String fechaMovimiento;
 
     public MovimientoInventario() {
     }
-
-    // --- Getters y Setters Base (Se mantienen) ---
 
     public int getIdInventario() {
         return idInventario;
@@ -47,8 +44,6 @@ public class MovimientoInventario {
     public void setMotivo(String motivo) {
         this.motivo = motivo;
     }
-
-    // --- NUEVOS GETTERS Y SETTERS COMPATIBLES CON ALMACENCONTROLLER ---
 
     public String getNombreTienda() {
         return nombreTienda;

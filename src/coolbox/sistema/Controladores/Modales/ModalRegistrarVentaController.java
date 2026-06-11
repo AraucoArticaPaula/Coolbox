@@ -208,10 +208,10 @@ public class ModalRegistrarVentaController {
 
         boletaGeneradaActual = obtenerSiguienteNumeroBoleta();
 
-        String sqlVenta = "INSERT INTO VENTAS(id_tienda, id_empleado, fecha, monto, productos_por_venta, tipo_pago, tarjeta_tipo, monto_paid, vuelto, numero_boleta) " +
+        String sqlVenta = "INSERT INTO VENTAS(id_tienda, id_empleado, fecha, monto, productos_por_venta, tipo_pago, tarjeta_tipo, monto_pagado, vuelto, numero_boleta) " +
                           "VALUES(?, ?, CAST(GETDATE() AS DATE), ?, ?, ?, ?, ?, ?, ?)";
                           
-        String sqlDetalle = "INSERT INTO DETALLE_VENTA(id_venta, nombre_producto, cantidad, precio_unitario, subtotal) VALUES(?, ?, ?, ?, ?)";
+        String sqlDetalle = "INSERT INTO DETALLE_VENTA(id_venta, nombre_producto, cantidad, precio_unitario, subtotal, numero_boleta, fecha) VALUES(?, ?, ?, ?, ?, ?, CAST(GETDATE() AS DATE))";
 
         Connection connection = null;
         try {
@@ -251,6 +251,7 @@ public class ModalRegistrarVentaController {
                         stmtDetalle.setInt(3, 1); // Manejamos cantidad unitaria por fila
                         stmtDetalle.setDouble(4, item.getPrecio());
                         stmtDetalle.setDouble(5, item.getPrecio()); // Subtotal igual al precio
+                        stmtDetalle.setString(6, boletaGeneradaActual);
                         stmtDetalle.addBatch(); // Empaqueta para inserción masiva veloz
                     }
                     stmtDetalle.executeBatch(); // Inserta todos los productos de golpe

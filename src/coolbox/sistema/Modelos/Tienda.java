@@ -3,12 +3,11 @@ package coolbox.sistema.Modelos;
 public class Tienda {
     private int idTienda;
     private String nombreTienda;
-    private String centroComercial; // Nuevo campo que reemplaza a ubicación
+    private String centroComercial;
 
     public Tienda() {
     }
 
-    // Constructor completo actualizado
     public Tienda(int idTienda, String nombreTienda, String centroComercial) {
         this.idTienda = idTienda;
         this.nombreTienda = nombreTienda;
@@ -31,7 +30,6 @@ public class Tienda {
         this.nombreTienda = nombreTienda;
     }
 
-    // NUEVOS MÉTODOS OBLIGATORIOS PARA EL CENTRO COMERCIAL
     public String getCentroComercial() {
         return centroComercial;
     }

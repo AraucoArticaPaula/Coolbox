@@ -34,6 +34,7 @@ public class ReportesController {
     @FXML private DatePicker dpFechaInicio;
     @FXML private DatePicker dpFechaFin;
     
+    @FXML private Label lblNombreUsuarioSidebar;
     @FXML private Label lblMontoVsPresupuesto;
     @FXML private Label lblEstadoPresupuesto; 
     @FXML private Label lblTituloPresupuesto; 
@@ -338,4 +339,28 @@ public class ReportesController {
             stage.show();
         } catch (Exception e) { e.printStackTrace(); }
     }
+
+    @FXML
+    private void abrirPerfil() {
+        try {
+            javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(
+                getClass().getResource("/coolbox/sistema/Vistas/Modales/PerfilUsuario.fxml"));
+            javafx.stage.Stage dialog = new javafx.stage.Stage();
+            dialog.setTitle("Mi Perfil");
+            dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            dialog.setScene(new javafx.scene.Scene(root));
+            dialog.setResizable(false);
+            dialog.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mostrarNombreEnSidebar() {
+        if (lblNombreUsuarioSidebar != null) {
+            String nombre = SesionUsuario.getNombreUsuario();
+            lblNombreUsuarioSidebar.setText(nombre != null ? nombre : "");
+        }
+    }
+
 }

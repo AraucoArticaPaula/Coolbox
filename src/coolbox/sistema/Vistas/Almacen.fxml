@@ -44,6 +44,8 @@
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irOperaciones" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text=" 💰  Operaciones" />
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irReportes" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text=" 📊  Reportes" />
                         <Region prefHeight="172.0" prefWidth="190.0" />
+                                                <Label fx:id="lblNombreUsuarioSidebar" alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #AAAAAA; -fx-font-size: 11px; -fx-font-family: 'Tw Cen MT'; -fx-padding: 4 8 0 8;" text="..." wrapText="true" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#abrirPerfil" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👤  Mi Perfil" />
                         <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" prefWidth="216.0" onAction="#cerrarSesion" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text=" 🚪  Cerrar sesión" />
                      </children>
                   </VBox>

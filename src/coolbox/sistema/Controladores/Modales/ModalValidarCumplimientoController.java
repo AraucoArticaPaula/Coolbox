@@ -44,6 +44,12 @@ public class ModalValidarCumplimientoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cargarEmpleadosDesdeBD();
         aplicarFiltrosDeSeguridadNumerica();
+
+        // Listener en la propiedad value para que dispare siempre,
+        // tanto al seleccionar del calendario como al escribir la fecha
+        dpFechaSemana.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) onFechaSeleccionada();
+        });
     }
 
     private void cargarEmpleadosDesdeBD() {
@@ -106,7 +112,7 @@ public class ModalValidarCumplimientoController implements Initializable {
         LocalDate fechaElegida = dpFechaSemana.getValue();
         if (fechaElegida == null) return;
 
-        LocalDate lunesDeEsaSemana = fechaElegida.with(TemporalAdjusters.previousOrSame(DayOfWeek.LUNES));
+        LocalDate lunesDeEsaSemana = fechaElegida.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate domingoDeEsaSemana = fechaElegida.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
         DateTimeFormatter formatoVisual = DateTimeFormatter.ofPattern("dd/MM/yyyy");

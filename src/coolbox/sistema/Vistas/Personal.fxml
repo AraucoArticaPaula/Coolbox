@@ -2,6 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -43,6 +45,8 @@
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAOperaciones" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  💰  Operaciones" />
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAReportes" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📊  Reportes" />
                         <Region prefHeight="172.0" prefWidth="190.0" />
+                        <Label fx:id="lblNombreUsuarioSidebar" alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #AAAAAA; -fx-font-size: 11px; -fx-font-family: 'Tw Cen MT'; -fx-padding: 4 8 0 8;" text="..." wrapText="true" />
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#abrirPerfil" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👤  Mi Perfil" />
                         <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" prefWidth="216.0" onAction="#cerrarSesion" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🚪  Cerrar sesión" />
                      </children>
                   </VBox>
@@ -82,6 +86,7 @@
                                     <Button fx:id="btnAsignarCargo" mnemonicParsing="false" onAction="#abrirModalAsignarCargo" prefHeight="32.0" style="-fx-background-color: #6C757D; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="⚙ Asignar Cargo" />
                                     <Region HBox.hgrow="ALWAYS" />
                                     <Button fx:id="btnBajaEmpleado" mnemonicParsing="false" onAction="#eliminarEmpleado" prefHeight="32.0" style="-fx-background-color: #DC3545; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="❌ Dar de Baja" />
+                                    <Button fx:id="btnDeshabilitarEmpleado" mnemonicParsing="false" onAction="#deshabilitarEmpleado" prefHeight="32.0" style="-fx-background-color: #FFC107; -fx-text-fill: #212121; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="⏸ Deshabilitar" />
                                  </children>
                               </HBox>
                               <TableView fx:id="tblEmpleados" prefHeight="400.0" prefWidth="750.0" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
@@ -113,13 +118,28 @@
                            <children>
                               <VBox prefWidth="370.0" spacing="10.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <HBox alignment="CENTER_LEFT">
-                                       <children>
-                                          <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Planificación de Turnos (Horarios)" textFill="#333333" />
-                                          <Region HBox.hgrow="ALWAYS" />
-                                          <Button mnemonicParsing="false" onAction="#abrirModalRegistrarHorario" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand;" text="+ Asignar Turno" />
-                                       </children>
-                                    </HBox>
+                                    <VBox spacing="8.0" style="-fx-background-color: #E9ECEF; -fx-padding: 10; -fx-border-color: #DEE2E6; -fx-border-radius: 5; -fx-background-radius: 5;">
+                                        
+                                        <HBox alignment="CENTER_LEFT" spacing="15.0">
+                                            <Label fx:id="lblFechaActualHorario" text="Hoy: 00/00/0000" style="-fx-font-weight: bold; -fx-text-fill: #0056b3; -fx-font-size: 13px;" />
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Button mnemonicParsing="false" onAction="#abrirModalRegistrarHorario" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 5; -fx-cursor: hand; -fx-font-weight: bold;" text="+ Asignar Turno" />
+                                        </HBox>
+                                        
+                                        <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                            <Label text="Ver desde:" style="-fx-font-size: 11px; -fx-font-weight: bold;" prefWidth="60.0"/>
+                                            <DatePicker fx:id="dpHorarioInicio" prefWidth="120.0" />
+                                            <Label text="Hasta el:" style="-fx-font-size: 11px; -fx-font-weight: bold;" prefWidth="50.0"/>
+                                            <DatePicker fx:id="dpHorarioFin" disable="true" prefWidth="120.0" style="-fx-opacity: 1;" />
+                                        </HBox>
+
+                                        <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                            <Label text="Filtrar Día:" style="-fx-font-size: 11px; -fx-font-weight: bold;" prefWidth="60.0"/>
+                                            <ComboBox fx:id="cmbHorarioDia" prefWidth="120.0" promptText="Día" />
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Button mnemonicParsing="false" onAction="#buscarHorarios" prefHeight="26.0" prefWidth="90.0" style="-fx-background-color: #007BFF; -fx-text-fill: white; -fx-background-radius: 4; -fx-cursor: hand; -fx-font-weight: bold;" text="🔍 Buscar" />
+                                        </HBox>
+                                    </VBox>
                                     <TableView fx:id="tblHorarios" prefHeight="400.0" prefWidth="200.0" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
                                       <columns>
                                         <TableColumn fx:id="colHorarioEmpleado" prefWidth="140.0" text="Empleado" />

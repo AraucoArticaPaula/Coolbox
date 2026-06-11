@@ -6,7 +6,9 @@ public class Comision {
     private String fecha;
     private int idVenta;
     private double montoVenta;
-    private String numeroBoleta; // 🌟 Nuevo campo para el texto del comprobante
+    private String numeroBoleta;
+    private String nombreVendedor;
+    private String productoReferencia;
 
     public Comision() {
     }
@@ -51,7 +53,6 @@ public class Comision {
         this.montoVenta = montoVenta;
     }
 
-    // 🌟 Métodos nuevos requeridos por el ReportesController
     public String getNumeroBoleta() {
         return numeroBoleta;
     }
@@ -59,4 +60,9 @@ public class Comision {
     public void setNumeroBoleta(String numeroBoleta) {
         this.numeroBoleta = numeroBoleta;
     }
+    public String getNombreVendedor() { return nombreVendedor; }
+    public void setNombreVendedor(String nombreVendedor) { this.nombreVendedor = nombreVendedor; }
+
+    public String getProductoReferencia() { return productoReferencia; }
+    public void setProductoReferencia(String productoReferencia) { this.productoReferencia = productoReferencia; }
 }

@@ -32,7 +32,6 @@ public class SaleItem {
         this.precio = precio;
     }
 
-    // 🌟 CORRECCIÓN CRÍTICA: Intercepta el renderizado de JavaFX para mostrar el nombre del producto en los ComboBox
     @Override
     public String toString() {
         return (this.descripcion != null && !this.descripcion.isBlank()) 

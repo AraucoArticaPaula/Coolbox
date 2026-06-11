@@ -17,6 +17,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +40,9 @@ public class ModalRegistrarHorarioController implements Initializable {
     @FXML private ComboBox<String> cmbPickerDia;
     @FXML private ComboBox<String> cmbPickerInicio;
     @FXML private ComboBox<String> cmbPickerFin;
+
+    @FXML private DatePicker dpFechaInicio;
+    @FXML private DatePicker dpFechaFin;
 
     @FXML private TableView<FilaHorarioGrafico> tblMatrizHorario;
     @FXML private TableColumn<FilaHorarioGrafico, String> colTramo;
@@ -61,6 +68,21 @@ public class ModalRegistrarHorarioController implements Initializable {
         cargarEmpleadosDesdeBD();
         inicializarPickersRangos();
         configurarTablaGrafica();
+        configurarFechasAutomaticas();
+    }
+
+    private void configurarFechasAutomaticas() {
+        // Calcular el lunes mas cercano desde hoy en adelante
+        LocalDate hoy = LocalDate.now();
+        LocalDate lunesProximo = hoy.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
+        LocalDate domingoProximo = lunesProximo.plusDays(6);
+
+        dpFechaInicio.setValue(lunesProximo);
+        dpFechaFin.setValue(domingoProximo);
+
+        // Bloquear ambos DatePickers para que no se puedan cambiar manualmente
+        dpFechaInicio.setDisable(true);
+        dpFechaFin.setDisable(true);
     }
 
     private void obtenerYMostrarNombreTienda() {
@@ -270,8 +292,45 @@ public class ModalRegistrarHorarioController implements Initializable {
 
     @FXML
     private void guardarHorarioSemanas() {
+        LocalDate fechaInicio = dpFechaInicio.getValue();
+        LocalDate fechaFin = dpFechaFin.getValue();
+
+        if (fechaInicio == null || fechaFin == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Por favor, seleccione el rango de fechas (Inicio y Fin) para la vigencia del horario.", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+        if (fechaInicio.isAfter(fechaFin)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "La fecha de inicio no puede ser posterior a la fecha de fin.", ButtonType.OK);
+            alert.showAndWait();
+            return;
+        }
+
+        // Verificar si ya existe horario registrado para este periodo en esta tienda
+        String sqlCheck = "SELECT COUNT(*) FROM HORARIOS WHERE id_tienda = ? AND fecha_inicio = ? AND fecha_fin = ?";
+        try (Connection connCheck = ConexionDB.getConnection();
+             PreparedStatement stmtCheck = connCheck.prepareStatement(sqlCheck)) {
+            stmtCheck.setInt(1, SesionUsuario.getIdTiendaUsuarioConectado());
+            stmtCheck.setString(2, fechaInicio.toString());
+            stmtCheck.setString(3, fechaFin.toString());
+            try (ResultSet rsCheck = stmtCheck.executeQuery()) {
+                if (rsCheck.next() && rsCheck.getInt(1) > 0) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING,
+                        "Ya existe un horario registrado para el periodo del " + fechaInicio + " al " + fechaFin + ".\n" +
+                        "No es posible registrar un horario duplicado para el mismo periodo.", ButtonType.OK);
+                    alert.setTitle("Periodo ya registrado");
+                    alert.setHeaderText(null);
+                    alert.showAndWait();
+                    return;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
-        String sql = "INSERT INTO HORARIOS (id_empleado, dia_semana, hora_inicio, hora_fin) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO HORARIOS (id_empleado, id_tienda, dia_semana, hora_inicio, hora_fin, fecha_inicio, fecha_fin) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = ConexionDB.getConnection()) {
             connection.setAutoCommit(false);
@@ -287,7 +346,7 @@ public class ModalRegistrarHorarioController implements Initializable {
                         String tramoTxt = fila.getTramo();
 
                         mapaLote.putIfAbsent(idEmp, new HashMap<>());
-                        mapaLote.get(idEmp).putIfAbsent(d, new String[]{null, null});
+                        mapaLote.get(idEmp).putIfAbsent(d, new String[]{null, null, fechaInicio.toString(), fechaFin.toString()});
 
                         if (mapaLote.get(idEmp).get(d)[0] == null) {
                             mapaLote.get(idEmp).get(d)[0] = traducirHora(tramoTxt.split(" - ")[0]);
@@ -302,9 +361,12 @@ public class ModalRegistrarHorarioController implements Initializable {
                     int idEmp = empEntry.getKey();
                     for (Map.Entry<String, String[]> diaEntry : empEntry.getValue().entrySet()) {
                         statement.setInt(1, idEmp);
-                        statement.setString(2, diaEntry.getKey());
-                        statement.setString(3, diaEntry.getValue()[0]);
-                        statement.setString(4, diaEntry.getValue()[1]);
+                        statement.setInt(2, SesionUsuario.getIdTiendaUsuarioConectado());
+                        statement.setString(3, diaEntry.getKey());
+                        statement.setString(4, diaEntry.getValue()[0]);
+                        statement.setString(5, diaEntry.getValue()[1]);
+                        statement.setString(6, diaEntry.getValue()[2]);
+                        statement.setString(7, diaEntry.getValue()[3]);
                         statement.addBatch();
                     }
                 }
@@ -329,7 +391,7 @@ public class ModalRegistrarHorarioController implements Initializable {
         String minutos = soloNumeros.split(":")[1];
         if (esPM && horaInt != 12) horaInt += 12;
         if (!esPM && horaInt == 12) horaInt = 0;
-        return String.format("%02d:%s:00", horaInt, minutes);
+        return String.format("%02d:%s:00", horaInt, minutos);
     }
 
     // EXPORTACIÓN A EXCEL (.CSV) CON TRATAMIENTO DE EMPLEADOS MULTIPLE EN SIMULTÁNEO

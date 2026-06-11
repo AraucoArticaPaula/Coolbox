@@ -7,8 +7,6 @@ public class Traslado {
     private String destino;
     private int cantidad;
     private String estado;
-
-    // --- GETTERS Y SETTERS NUEVOS Y CORREGIDOS ---
     
     public int getIdTraslado() {
         return idTraslado;
@@ -25,8 +23,6 @@ public class Traslado {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-
-    // --- GETTERS Y SETTERS QUE YA TENÍAS ---
 
     public String getProducto() {
         return producto;

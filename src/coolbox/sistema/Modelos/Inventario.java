@@ -13,8 +13,6 @@ public class Inventario {
     public Inventario() {
     }
 
-    // --- Getters para las propiedades (Requeridos por PropertyValueFactory) ---
-
     public IntegerProperty idInventarioProperty() { return idInventario; }
     public int getIdInventario() { return idInventario.get(); }
     public void setIdInventario(int id) { this.idInventario.set(id); }
