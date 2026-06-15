@@ -10,7 +10,7 @@ public class VentaResumen {
     private double montoVenta;
     private int cantidadItems;
     private String nombreVendedor;
-    private List<ComisionResumen> desglose; // Para la tabla derecha
+    private List<ComisionResumen> desglose;
 
     public VentaResumen(int idVenta, double totalComisiones, String fechaVenta,
                         String numeroBoleta, double montoVenta, int cantidadItems,

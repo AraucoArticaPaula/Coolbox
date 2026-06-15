@@ -45,18 +45,10 @@
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   
                   <VBox spacing="5.0">
-                     <children>
-                        <Label style="-fx-font-weight: bold;" text="Tienda Afectada *" textFill="#444444" />
-                        <ComboBox fx:id="cmbTienda" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccionar sucursal..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
-                     </children>
-                  </VBox>
-                  
-                  <VBox spacing="5.0" GridPane.columnIndex="1">
                      <children>
                         <Label style="-fx-font-weight: bold;" text="Tipo de Movimiento *" textFill="#444444" />
                         <ComboBox fx:id="cmbTipoMovimiento" maxWidth="Infinity" prefHeight="35.0" promptText="Alta / Baja" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;">
@@ -70,24 +62,24 @@
                      </children>
                   </VBox>
                   
-                  <VBox spacing="5.0" GridPane.rowIndex="1">
+                  <VBox spacing="5.0" GridPane.columnIndex="1">
                      <children>
                         <Label style="-fx-font-weight: bold;" text="Producto *" textFill="#444444" />
                         <ComboBox fx:id="cmbProducto" maxWidth="Infinity" prefHeight="35.0" promptText="Buscar producto..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
                      </children>
                   </VBox>
                   
-                  <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <VBox spacing="5.0" GridPane.rowIndex="1">
                      <children>
                         <Label style="-fx-font-weight: bold;" text="Cantidad *" textFill="#444444" />
                         <TextField fx:id="txtCantidad" prefHeight="35.0" promptText="Ej. 15" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
                      </children>
                   </VBox>
                   
-                  <VBox spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+                  <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label style="-fx-font-weight: bold;" text="Motivo del Ajuste *" textFill="#444444" />
-                        <TextField fx:id="txtMotivo" prefHeight="35.0" promptText="Ej. Ingreso por importación / Retiro por mercadería dañada" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
+                        <TextField fx:id="txtMotivo" prefHeight="35.0" promptText="Ej. Ingreso por importación..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
                      </children>
                   </VBox>
                   

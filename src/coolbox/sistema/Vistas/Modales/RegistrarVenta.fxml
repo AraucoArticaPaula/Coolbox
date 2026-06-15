@@ -28,12 +28,12 @@
                      <children>
                         <VBox spacing="2.0">
                            <children>
-                              <Label text="Punto de Venta - Registrar Ticket" textFill="#222222">
+                              <Label text="Registrar ticket" textFill="#222222">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Label text="Gestión de caja, control de garantías extendidas y pasarela de pagos." textFill="#666666">
+                              <Label text="Gestión de caja" textFill="#666666">
                                  <font>
                                     <Font size="11.0" />
                                  </font>
@@ -52,7 +52,7 @@
                         
                         <VBox prefWidth="240.0" spacing="10.0">
                            <children>
-                              <Label style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Datos de la Transacción" textFill="#333333" />
+                              <Label style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Datos de la transacción" textFill="#333333" />
                               
                               <VBox spacing="2.0">
                                  <children>
@@ -72,7 +72,7 @@
                               
                               <VBox spacing="6.0" style="-fx-background-color: #F1F3F5; -fx-background-radius: 6; -fx-padding: 8; -fx-border-color: #DEE2E6; -fx-border-radius: 6;">
                                  <children>
-                                    <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Añadir Plan de Garantía" textFill="#495057" />
+                                    <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Añadir plan de garantía" textFill="#495057" />
                                     <ComboBox fx:id="cmbTipoGarantia" maxWidth="Infinity" prefHeight="26.0" promptText="Tipo cobertura..." style="-fx-background-radius: 4; -fx-background-color: white;" />
                                     <ComboBox fx:id="cmbProductoParaGarantia" maxWidth="Infinity" prefHeight="26.0" promptText="Aplicar al producto..." style="-fx-background-radius: 4; -fx-background-color: white;" />
                                     <HBox alignment="CENTER_LEFT" spacing="4.0">
@@ -87,14 +87,14 @@
                               
                               <VBox spacing="6.0" style="-fx-background-color: #E9ECEF; -fx-background-radius: 6; -fx-padding: 8; -fx-border-color: #CED4DA; -fx-border-radius: 6;">
                                  <children>
-                                    <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Método de Pago" textFill="#495057" />
+                                    <Label style="-fx-font-size: 11px; -fx-font-weight: bold;" text="Método de pago" textFill="#495057" />
                                     <ComboBox fx:id="cmbTipoPago" maxWidth="Infinity" prefHeight="26.0" style="-fx-background-radius: 4; -fx-background-color: white;" />
-                                    <ComboBox fx:id="cmbTipoTarjeta" maxWidth="Infinity" prefHeight="26.0" promptText="Tipo de Tarjeta..." style="-fx-background-radius: 4; -fx-background-color: white;" />
+                                    <ComboBox fx:id="cmbTipoTarjeta" maxWidth="Infinity" prefHeight="26.0" promptText="Tipo de tarjeta..." style="-fx-background-radius: 4; -fx-background-color: white;" />
                                     <VBox fx:id="paneEfectivo" spacing="4.0">
                                        <children>
                                           <HBox alignment="CENTER_LEFT">
                                              <children>
-                                                <Label style="-fx-font-size: 11px;" text="Efectivo Recibido:" />
+                                                <Label style="-fx-font-size: 11px;" text="Efectivo recibido:" />
                                                 <Region HBox.hgrow="ALWAYS" />
                                                 <TextField fx:id="txtMontoPagado" onKeyReleased="#calcularVueltoDinámico" prefHeight="26.0" prefWidth="85.0" style="-fx-alignment: center-right; -fx-font-weight: bold;" text="0.00" />
                                              </children>
@@ -115,7 +115,7 @@
                         
                         <VBox spacing="8.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Detalle del Comprobante" textFill="#333333" />
+                              <Label style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Detalle del comprobante" textFill="#333333" />
                               
                               <HBox alignment="BOTTOM_LEFT" spacing="6.0" style="-fx-background-color: #F1F3F5; -fx-padding: 8; -fx-background-radius: 6; -fx-border-color: #DEE2E6; -fx-border-radius: 6;">
                                  <children>
@@ -144,7 +144,7 @@
                               <TableView fx:id="tblDetalleVenta" prefHeight="220.0" style="-fx-background-radius: 6;" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="colIdProd" prefWidth="60.0" text="ID" />
-                                  <TableColumn fx:id="colDescripcion" prefWidth="250.0" text="Descripción del Producto" />
+                                  <TableColumn fx:id="colDescripcion" prefWidth="250.0" text="Descripción del producto" />
                                   <TableColumn fx:id="colPrecio" prefWidth="80.0" text="Precio" />
                                 </columns>
                                  <columnResizePolicy>
@@ -170,7 +170,7 @@
                      <children>
                         <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="32.0" prefWidth="90.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
                         <Button fx:id="btnImprimir" disable="true" mnemonicParsing="false" onAction="#imprimirTicketPDF" prefHeight="32.0" prefWidth="130.0" style="-fx-background-color: #17A2B8; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="🖨️ Imprimir PDF" />
-                        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarVentaEImprimir" prefHeight="32.0" prefWidth="140.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="💾 Guardar Venta" />
+                        <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardarVentaEImprimir" prefHeight="32.0" prefWidth="140.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="💾 Guardar venta" />
                      </children>
                   </HBox>
                </children>

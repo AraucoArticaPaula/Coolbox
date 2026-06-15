@@ -12,6 +12,8 @@ public class Empleado {
     private String direccion;
     private String cargo;
     private String estado;
+    
+    private String nombreTienda;
 
     public Empleado() {
     }
@@ -113,6 +115,14 @@ public class Empleado {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getNombreTienda() {
+        return nombreTienda;
+    }
+
+    public void setNombreTienda(String nombreTienda) {
+        this.nombreTienda = nombreTienda;
     }
 
     @Override

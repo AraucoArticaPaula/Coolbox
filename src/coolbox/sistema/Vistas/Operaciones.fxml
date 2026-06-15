@@ -20,33 +20,32 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="coolbox.sistema.Controladores.OperacionesController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="9.0" prefHeight="600.0" prefWidth="210.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="220.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="250.0" style="-fx-background-color: transparent;">
+            <VBox alignment="CENTER" prefHeight="130.0" prefWidth="220.0" style="-fx-background-color: transparent;">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@LOGO%20COOLBOX.png" />
-                     </image>
+                  <ImageView fitHeight="100.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                     <image><Image url="@LOGO%20COOLBOX.png" /></image>
                   </ImageView>
                </children>
             </VBox>
-            <ScrollPane fitToWidth="true" prefHeight="450.0" prefWidth="210.0" style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
+            <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" prefWidth="220.0" style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
                <content>
-                  <VBox prefHeight="441.0" prefWidth="206.0" spacing="2.0" style="-fx-background-color: transparent;">
-                     <padding>
-                        <Insets bottom="10.0" left="8.0" right="8.0" top="10.0" />
-                     </padding>
+                  <VBox prefWidth="218.0" spacing="4.0" style="-fx-background-color: transparent;">
+                     <padding><Insets bottom="10.0" left="10.0" right="10.0" top="5.0" /></padding>
                      <children>
+                        <Label fx:id="lblNombreUsuarioSidebar" alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #AAAAAA; -fx-font-size: 13px; -fx-font-family: 'Tw Cen MT'; -fx-font-weight: bold; -fx-padding: 0 0 12 0;" text="..." wrapText="true" />
+                        
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irPersonal" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👥  Personal" />
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irSeguridad" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🔐  Seguridad" />
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irAlmacen" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📦  Almacén" />
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" style="-fx-background-color: #CC0000; -fx-text-fill: #FFFFFF; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  💰  Operaciones" />
                         <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#irReportes" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  📊  Reportes" />
-                        <Region prefHeight="172.0" prefWidth="190.0" />
-                                                <Label fx:id="lblNombreUsuarioSidebar" alignment="CENTER" maxWidth="Infinity" style="-fx-text-fill: #AAAAAA; -fx-font-size: 11px; -fx-font-family: 'Tw Cen MT'; -fx-padding: 4 8 0 8;" text="..." wrapText="true" />
-                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#abrirPerfil" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👤  Mi Perfil" />
-                        <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" prefWidth="216.0" onAction="#cerrarSesion" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🚪  Cerrar sesión" />
+                        
+                        <Region VBox.vgrow="ALWAYS" />
+                        
+                        <Button alignment="CENTER_LEFT" maxWidth="Infinity" prefHeight="38" onAction="#abrirPerfil" style="-fx-background-color: transparent; -fx-text-fill: #CCCCCC; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  👤  Mi perfil" />
+                        <Button alignment="CENTER" maxWidth="Infinity" prefHeight="38.0" onAction="#cerrarSesion" style="-fx-background-color: transparent; -fx-text-fill: #FF6666; -fx-font-family: 'Tw Cen MT'; -fx-font-size: 13px; -fx-background-radius: 10; -fx-cursor: hand; -fx-border-color: transparent;" text="  🚪  Cerrar sesión" />
                      </children>
                   </VBox>
                </content>
@@ -54,86 +53,71 @@
          </children>
       </VBox>
       
-      <VBox layoutX="267.0" layoutY="33.0" prefHeight="600.0" prefWidth="790.0" style="-fx-background-color: #F8F9FA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="210.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="600.0" style="-fx-background-color: #F8F9FA;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER_LEFT" prefHeight="49.0" prefWidth="750.0" style="-fx-background-color: white;">
+            <HBox alignment="CENTER_LEFT" prefHeight="49.0" style="-fx-background-color: white; -fx-padding: 0 20 0 20;">
                <children>
-                  <Label alignment="CENTER" prefHeight="31.0" prefWidth="140.0" text="Operaciones" textFill="#222222">
-                     <font>
-                        <Font name="System Bold" size="21.0" />
-                     </font>
+                  <Label alignment="CENTER" prefHeight="31.0" text="Operaciones" textFill="#222222">
+                     <font><Font name="System Bold" size="21.0" /></font>
                   </Label>
                </children>
             </HBox>
             <Separator prefWidth="200.0" />
             
-            <TabPane prefHeight="550.0" prefWidth="790.0" style="-fx-tab-min-width: 150px; -fx-tab-max-width: 180px; -fx-tab-min-height: 35px;" stylesheets="@estilo_tabs_limpio.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+            <TabPane style="-fx-tab-min-width: 150px; -fx-tab-max-width: 180px; -fx-tab-min-height: 35px;" stylesheets="@estilo_tabs_limpio.css" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
               <tabs>
-                
-                <Tab text="💰 Ventas del Día">
+                <Tab text="💰 Ventas del día">
                      <content>
                         <VBox spacing="12.0">
-                           <padding>
-                              <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
-                           </padding>
+                           <padding><Insets bottom="15.0" left="20.0" right="20.0" top="15.0" /></padding>
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="12.0">
                                  <children>
-                                    <Button fx:id="btnNuevaVenta" mnemonicParsing="false" onAction="#abrirModalRegistrarVenta" prefHeight="32.0" style="-fx-background-color: #CC0000; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Registrar Nueva Venta" />
+                                    <Button fx:id="btnNuevaVenta" mnemonicParsing="false" onAction="#abrirModalRegistrarVenta" prefHeight="32.0" style="-fx-background-color: #CC0000; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Registrar nueva venta" />
                                     <Region HBox.hgrow="ALWAYS" />
-                                    
                                     <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Desde:" textFill="#555555" />
                                     <DatePicker fx:id="dpInicio" prefHeight="30.0" prefWidth="130.0" promptText="Fecha inicial" />
                                     <Label style="-fx-font-size: 12px; -fx-font-weight: bold;" text="Hasta:" textFill="#555555" />
                                     <DatePicker fx:id="dpFin" prefHeight="30.0" prefWidth="130.0" promptText="Fecha final" />
-                                    <Button mnemonicParsing="false" onAction="#filtrarVentasPorFecha" prefHeight="30.0" style="-fx-background-color: #0056B3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold; -fx-cursor: hand;" text="🔍 Filtrar Periodo" />
+                                    <Button mnemonicParsing="false" onAction="#filtrarVentasPorFecha" prefHeight="30.0" style="-fx-background-color: #0056B3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold; -fx-cursor: hand;" text="🔍 Filtrar periodo" />
                                  </children>
                               </HBox>
-                              
-                              <TableView fx:id="tblVentas" prefHeight="400.0" prefWidth="750.0" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="tblVentas" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
                                 <columns>
                                   <TableColumn fx:id="colIdVenta" prefWidth="60.0" text="ID" />
-                                  <TableColumn fx:id="colNumeroBoleta" prefWidth="120.0" text="Nº Boleta Fiscal" /> <TableColumn fx:id="colTiendaVenta" prefWidth="140.0" text="Sucursal" />
-                                  <TableColumn fx:id="colEmpleadoVenta" prefWidth="150.0" text="Vendedor" />
-                                  <TableColumn fx:id="colFechaVenta" prefWidth="120.0" text="Fecha Emisión" />
-                                  <TableColumn fx:id="colMontoVenta" prefWidth="100.0" text="Monto Total" />
-                                  <TableColumn fx:id="colProductosVenta" prefWidth="80.0" text="Cant. Items" />
+                                  <TableColumn fx:id="colNumeroBoleta" prefWidth="140.0" text="Nº Boleta Fiscal" /> 
+                                  <TableColumn fx:id="colEmpleadoVenta" prefWidth="180.0" text="Vendedor" />
+                                  <TableColumn fx:id="colFechaVenta" prefWidth="140.0" text="Fecha emisión" />
+                                  <TableColumn fx:id="colMontoVenta" prefWidth="110.0" text="Monto total" />
+                                  <TableColumn fx:id="colProductosVenta" prefWidth="90.0" text="Ctd. items" />
                                 </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
+                                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
                               </TableView>
                            </children>
                         </VBox>
                      </content>
                   </Tab>
-                
-                <Tab text="🔒 Cierres y Cuadres">
+                <Tab text="🔒 Cierres y cuadres">
                      <content>
                         <VBox spacing="15.0">
-                           <padding>
-                              <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
-                           </padding>
+                           <padding><Insets bottom="15.0" left="20.0" right="20.0" top="15.0" /></padding>
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="10.0">
                                  <children>
-                                    <Button fx:id="btnNuevoCuadre" mnemonicParsing="false" onAction="#abrirModalRegistrarCuadre" prefHeight="32.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="✓ Registrar Cuadre de Caja" />
+                                    <Button fx:id="btnNuevoCuadre" mnemonicParsing="false" onAction="#abrirModalRegistrarCuadre" prefHeight="32.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="✓ Registrar cuadre de caja" />
                                  </children>
                               </HBox>
-                              
-                              <TableView fx:id="tblCuadres" prefHeight="400.0" prefWidth="750.0" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
+                              <TableView fx:id="tblCuadres" style="-fx-background-radius: 8;" VBox.vgrow="ALWAYS">
                                 <columns>
-                                  <TableColumn fx:id="colIdCuadre" prefWidth="70.0" text="ID Cuadre" />
+                                  <TableColumn fx:id="colIdCuadre" prefWidth="70.0" text="ID cuadre" />
                                   <TableColumn fx:id="colTiendaCuadre" prefWidth="140.0" text="Sucursal" />
-                                  <TableColumn fx:id="colEmpleadoCuadre" prefWidth="160.0" text="Responsable Cierre" />
-                                  <TableColumn fx:id="colFechaCuadre" prefWidth="120.0" text="Fecha Cierre" />
-                                  <TableColumn fx:id="colMontoCuadre" prefWidth="110.0" text="Monto Total" />
+                                  <TableColumn fx:id="colEmpleadoCuadre" prefWidth="160.0" text="Responsable cierre" />
+                                  <TableColumn fx:id="colFechaCuadre" prefWidth="120.0" text="Fecha cierre" />
+                                  <TableColumn fx:id="colMontoCuadre" prefWidth="110.0" text="Monto total" />
                                   <TableColumn fx:id="colObsCuadre" prefWidth="180.0" text="Observaciones" />
                                 </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
+                                 <columnResizePolicy><TableView fx:constant="CONSTRAINED_RESIZE_POLICY" /></columnResizePolicy>
                               </TableView>
                            </children>
                         </VBox>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="15.0" alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="coolbox.sistema.Controladores.Modales.ModalCambiarTiendaCargoController"
+      prefWidth="400.0" prefHeight="290.0" style="-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-width: 1;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <Label fx:id="lblEmpleado" text="Empleado: Seleccione uno" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+    
+    <GridPane hgap="10.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints prefWidth="100.0" />
+            <ColumnConstraints prefWidth="250.0" />
+        </columnConstraints>
+        <children>
+            <Label text="Nueva Tienda:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="cmbTienda" prefWidth="250.0" GridPane.rowIndex="0" GridPane.columnIndex="1" promptText="Seleccione Tienda"/>
+            
+            <Label text="Nuevo Cargo:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="cmbCargo" prefWidth="250.0" GridPane.rowIndex="1" GridPane.columnIndex="1" promptText="Seleccione Cargo"/>
+
+            <Label text="Modalidad:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="cmbModalidad" prefWidth="250.0" GridPane.rowIndex="2" GridPane.columnIndex="1" promptText="Seleccione FT / PT"/>
+        </children>
+    </GridPane>
+    
+    <HBox spacing="10.0" alignment="CENTER_RIGHT">
+        <Button fx:id="btnCancelar" text="Cancelar" onAction="#cerrarModal" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" />
+        <Button fx:id="btnGuardar" text="Guardar" onAction="#guardarCambios" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" />
+    </HBox>
+</VBox>

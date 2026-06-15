@@ -6,6 +6,8 @@ public class Usuario {
     private String nombreUsuario;
     private String correo;
     private String estado;
+    
+    private String nombreEmpleado;
 
     public Usuario() {
     }
@@ -56,6 +58,14 @@ public class Usuario {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public String getNombreEmpleado() {
+        return nombreEmpleado;
+    }
+
+    public void setNombreEmpleado(String nombreEmpleado) {
+        this.nombreEmpleado = nombreEmpleado;
     }
 
     @Override

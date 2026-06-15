@@ -33,9 +33,7 @@ public class ModalAsignarRolController {
 
     private void loadUsuarios() {
         String sql = "SELECT id_usuario, nombre_usuario, correo FROM USUARIOS";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             var lista = FXCollections.<Usuario>observableArrayList();
             while (rs.next()) {
                 Usuario usuario = new Usuario();
@@ -51,9 +49,7 @@ public class ModalAsignarRolController {
 
     private void loadRoles() {
         String sql = "SELECT id_rol, nombre_rol FROM ROLES";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             var lista = FXCollections.<Rol>observableArrayList();
             while (rs.next()) {
                 Rol rol = new Rol();
@@ -74,8 +70,7 @@ public class ModalAsignarRolController {
             return;
         }
         String sql = "INSERT INTO USUARIOS_ROLES(id_usuario, id_rol) VALUES(?, ?)";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, usuario.getIdUsuario());
             statement.setInt(2, rol.getIdRol());
             statement.executeUpdate();

@@ -17,27 +17,31 @@ import java.util.ResourceBundle;
 
 public class ModalRegistrarEmpleadoController implements Initializable {
 
-    @FXML private TextField txtNombres, txtApellidos, txtDNI, txtCelular, txtCorreo, txtDireccion;
-    @FXML private ComboBox<String> cmbTienda; 
-    @FXML private ComboBox<String> cmbTipoEmpleado; 
-    @FXML private ComboBox<String> cmbCargo; 
-    @FXML private Label lblTiendaDestinoModal; 
-    @FXML private Button btnCancelar;
+    @FXML
+    private TextField txtNombres, txtApellidos, txtDNI, txtCelular, txtCorreo, txtDireccion;
+    @FXML
+    private ComboBox<String> cmbTienda;
+    @FXML
+    private ComboBox<String> cmbTipoEmpleado;
+    @FXML
+    private ComboBox<String> cmbCargo;
+    @FXML
+    private Label lblTiendaDestinoModal;
+    @FXML
+    private Button btnCancelar;
 
     private int tiendaIdActual = 1;
     private final Map<String, Integer> mapaTiendas = new HashMap<>();
-    
-    // Lista base de cargos para restaurar al cambiar a FT
+
     private final ObservableList<String> cargosCompletos = FXCollections.observableArrayList("GERENTE", "SUBGERENTE", "VENDEDOR");
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tiendaIdActual = SesionUsuario.getIdTiendaUsuarioConectado();
-        
+
         cmbTipoEmpleado.getItems().addAll("FT", "PT");
         cmbCargo.setItems(cargosCompletos);
 
-        // --- LÓGICA: RESTRICCIÓN DE CARGOS PARA PT ---
         cmbTipoEmpleado.valueProperty().addListener((obs, oldVal, newVal) -> {
             if ("PT".equals(newVal)) {
                 cmbCargo.setItems(FXCollections.observableArrayList("VENDEDOR"));
@@ -53,43 +57,41 @@ public class ModalRegistrarEmpleadoController implements Initializable {
 
     private void cargarNombresDeTiendas() {
         boolean esAdminGlobal = "ADMINISTRADOR".equalsIgnoreCase(SesionUsuario.getRolUsuario());
-        
-        String sql = esAdminGlobal ? "SELECT id_tienda, nombre_tienda FROM TIENDAS" 
-                                   : "SELECT id_tienda, nombre_tienda FROM TIENDAS WHERE id_tienda = ?";
-        
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            
+
+        String sql = esAdminGlobal ? "SELECT id_tienda, nombre_tienda FROM TIENDAS"
+                : "SELECT id_tienda, nombre_tienda FROM TIENDAS WHERE id_tienda = ?";
+
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
             if (!esAdminGlobal) {
                 statement.setInt(1, tiendaIdActual);
             }
-            
+
             try (ResultSet rs = statement.executeQuery()) {
                 cmbTienda.getItems().clear();
                 mapaTiendas.clear();
-                
+
                 while (rs.next()) {
                     int id = rs.getInt("id_tienda");
                     String nombre = rs.getString("nombre_tienda").toUpperCase();
-                    
+
                     cmbTienda.getItems().add(nombre);
                     mapaTiendas.put(nombre, id);
                 }
             }
-            
-            // --- LÓGICA: AUTO-SELECCIÓN Y BLOQUEO DE TIENDA PARA GERENTES ---
+
             if (!esAdminGlobal) {
                 mapaTiendas.forEach((nombre, id) -> {
                     if (id == tiendaIdActual) {
                         cmbTienda.setValue(nombre);
                     }
                 });
-                cmbTienda.setDisable(true); 
+                cmbTienda.setDisable(true);
                 lblTiendaDestinoModal.setText("📍 Registrando en sucursal: " + cmbTienda.getValue());
             } else {
-                lblTiendaDestinoModal.setText("🌍 Modo Administrador: Asigne la sucursal destino.");
+                lblTiendaDestinoModal.setText("🌍 Modo administrador: Asigne la sucursal destino.");
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -121,7 +123,7 @@ public class ModalRegistrarEmpleadoController implements Initializable {
         Connection connection = null;
         try {
             connection = ConexionDB.getConnection();
-            connection.setAutoCommit(false); 
+            connection.setAutoCommit(false);
 
             int idCargoReal = -1;
             try (PreparedStatement psBuscarCargo = connection.prepareStatement(sqlBuscarCargo)) {
@@ -173,18 +175,29 @@ public class ModalRegistrarEmpleadoController implements Initializable {
 
         } catch (SQLException e) {
             if (connection != null) {
-                try { connection.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+                try {
+                    connection.rollback();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
             e.printStackTrace();
             mostrarAlerta("Error de Base de Datos", "No se pudo registrar: " + e.getMessage(), Alert.AlertType.ERROR);
         } finally {
             if (connection != null) {
-                try { connection.setAutoCommit(true); } catch (SQLException e) { e.printStackTrace(); }
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
-    @FXML private void cerrarModal() { ((Stage) btnCancelar.getScene().getWindow()).close(); }
+    @FXML
+    private void cerrarModal() {
+        ((Stage) btnCancelar.getScene().getWindow()).close();
+    }
 
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);

@@ -15,15 +15,24 @@ import java.sql.SQLException;
 
 public class ModalPerfilController {
 
-    @FXML private TextField txtNombres;
-    @FXML private TextField txtApellidos;
-    @FXML private TextField txtDni;
-    @FXML private TextField txtNombreUsuario;
-    @FXML private TextField txtCelular;
-    @FXML private TextField txtCorreo;
-    @FXML private PasswordField txtNuevaClave;
-    @FXML private PasswordField txtConfirmarClave;
-    @FXML private Label lblMensaje;
+    @FXML
+    private TextField txtNombres;
+    @FXML
+    private TextField txtApellidos;
+    @FXML
+    private TextField txtDni;
+    @FXML
+    private TextField txtNombreUsuario;
+    @FXML
+    private TextField txtCelular;
+    @FXML
+    private TextField txtCorreo;
+    @FXML
+    private PasswordField txtNuevaClave;
+    @FXML
+    private PasswordField txtConfirmarClave;
+    @FXML
+    private Label lblMensaje;
 
     private int idEmpleado;
     private int idUsuario;
@@ -35,14 +44,13 @@ public class ModalPerfilController {
     }
 
     private void cargarDatos() {
-        String sql = "SELECT e.nombres, e.apellidos, e.DNI, e.celular, e.correo, " +
-                     "u.nombre_usuario, u.id_usuario " +
-                     "FROM EMPLEADOS e " +
-                     "INNER JOIN USUARIOS u ON u.id_empleado = e.id_empleado " +
-                     "WHERE e.id_empleado = ?";
+        String sql = "SELECT e.nombres, e.apellidos, e.DNI, e.celular, e.correo, "
+                + "u.nombre_usuario, u.id_usuario "
+                + "FROM EMPLEADOS e "
+                + "INNER JOIN USUARIOS u ON u.id_empleado = e.id_empleado "
+                + "WHERE e.id_empleado = ?";
 
-        try (Connection con = ConexionDB.getConnection();
-             PreparedStatement stmt = con.prepareStatement(sql)) {
+        try (Connection con = ConexionDB.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setInt(1, idEmpleado);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -73,7 +81,6 @@ public class ModalPerfilController {
             return;
         }
 
-        // Validar contraseña si se quiere cambiar
         if (!nuevaClave.isEmpty()) {
             if (!nuevaClave.equals(confirmarClave)) {
                 lblMensaje.setText("Las contraseñas no coinciden.");
@@ -86,7 +93,7 @@ public class ModalPerfilController {
         }
 
         try (Connection con = ConexionDB.getConnection()) {
-            // Actualizar celular y correo en EMPLEADOS
+
             try (PreparedStatement stmt = con.prepareStatement(
                     "UPDATE EMPLEADOS SET celular = ?, correo = ? WHERE id_empleado = ?")) {
                 stmt.setString(1, celular);
@@ -95,7 +102,6 @@ public class ModalPerfilController {
                 stmt.executeUpdate();
             }
 
-            // Actualizar contraseña si se proporcionó
             if (!nuevaClave.isEmpty()) {
                 try (PreparedStatement stmt = con.prepareStatement(
                         "UPDATE USUARIOS SET contrasena = ? WHERE id_usuario = ?")) {

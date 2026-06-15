@@ -20,12 +20,12 @@
          <children>
             <VBox spacing="4.0">
                <children>
-                  <Label text="Auditoría y Validación de Horas" textFill="#222222">
+                  <Label text="Auditoría y validación de horas" textFill="#222222">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label text="Seleccione el rango semanal e ingrese manualmente el tiempo físico que cumplió el colaborador (Solo se permiten números)." textFill="#666666" wrapText="true">
+                  <Label text="Seleccione el rango" textFill="#666666" wrapText="true">
                      <font>
                         <Font size="11.0" />
                      </font>
@@ -37,21 +37,21 @@
                <children>
                   <VBox spacing="5.0">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Colaborador a Evaluar *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold;" text="Colaborador a evaluar *" textFill="#444444" />
                         <ComboBox fx:id="cmbEmpleado" onAction="#onEmpleadoSeleccionado" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccionar empleado..." style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
                      </children>
                   </VBox>
                   
                   <VBox spacing="5.0">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Seleccionar Fecha de la Semana *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold;" text="Seleccionar fecha*" textFill="#444444" />
                         <DatePicker fx:id="dpFechaSemana" onAction="#onFechaSeleccionada" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccione cualquier día de la semana a auditar..." style="-fx-background-radius: 5; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
                      </children>
                   </VBox>
 
                   <VBox spacing="5.0">
                      <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Rango de Período Semanal Calculado" textFill="#666666" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Rango de período semanal calculado" textFill="#666666" />
                         <TextField fx:id="txtPeriodo" editable="false" prefHeight="35.0" style="-fx-background-color: #E9ECEF; -fx-background-radius: 5; -fx-border-color: #CED4DA; -fx-border-radius: 5; -fx-font-weight: bold;" />
                      </children>
                   </VBox>
@@ -60,13 +60,13 @@
                      <children>
                         <VBox HBox.hgrow="ALWAYS" spacing="5.0">
                            <children>
-                              <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Ingresar Horas Realizadas *" textFill="#444444" />
+                              <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Ingresar horas realizadas *" textFill="#444444" />
                               <TextField fx:id="txtHorasCumplidas" onKeyReleased="#evaluarTiempoIngresado" prefHeight="35.0" promptText="Ej. 47" style="-fx-background-radius: 5; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
                            </children>
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS" spacing="5.0">
                            <children>
-                              <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Ingresar Minutos Realizados *" textFill="#444444" />
+                              <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Ingresar minutos realizados *" textFill="#444444" />
                               <TextField fx:id="txtMinutosCumplidos" onKeyReleased="#evaluarTiempoIngresado" prefHeight="35.0" promptText="Ej. 30" style="-fx-background-radius: 5; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
                            </children>
                         </VBox>
@@ -78,7 +78,7 @@
             <HBox alignment="CENTER_RIGHT" spacing="12.0">
                <children>
                   <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
-                  <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardarValidacion" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="✓ Registrar Auditoría" />
+                  <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardarValidacion" prefHeight="35.0" prefWidth="160.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="✓ Registrar auditoría" />
                </children>
             </HBox>
          </children>

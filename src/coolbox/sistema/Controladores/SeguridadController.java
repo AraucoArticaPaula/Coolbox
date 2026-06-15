@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,13 +27,13 @@ import java.util.List;
 public class SeguridadController {
 
     @FXML
+    private Label lblNombreUsuarioSidebar;
+
+    @FXML
     private TableView<Usuario> tblUsuarios;
 
     @FXML
-    private TableColumn<Usuario, Integer> colIdUsuario;
-
-    @FXML
-    private TableColumn<Usuario, Integer> colIdEmpleado;
+    private TableColumn<Usuario, String> colNombreEmpleado;
 
     @FXML
     private TableColumn<Usuario, String> colUsername;
@@ -63,13 +64,14 @@ public class SeguridadController {
 
     @FXML
     private void initialize() {
+        mostrarNombreEnSidebar();
+
         setupColumns();
         refreshAll();
     }
 
     private void setupColumns() {
-        colIdUsuario.setCellValueFactory(new PropertyValueFactory<>("idUsuario"));
-        colIdEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
+        colNombreEmpleado.setCellValueFactory(new PropertyValueFactory<>("nombreEmpleado"));
         colUsername.setCellValueFactory(new PropertyValueFactory<>("nombreUsuario"));
         colCorreoUsuario.setCellValueFactory(new PropertyValueFactory<>("correo"));
         colEstadoUsuario.setCellValueFactory(new PropertyValueFactory<>("estado"));
@@ -89,26 +91,30 @@ public class SeguridadController {
 
     @FXML
     private void abrirModalCrearUsuario() {
-        openModal("/coolbox/sistema/Vistas/Modales/CrearCuentaUsuario.fxml", "Crear Usuario");
+        openModal("/coolbox/sistema/Vistas/Modales/CrearCuentaUsuario.fxml", "Crear usuario");
         refreshAll();
     }
 
     @FXML
     private void abrirModalAsignarRol() {
-        openModal("/coolbox/sistema/Vistas/Modales/AsignarRolAdicional.fxml", "Asignar Rol Adicional");
+        openModal("/coolbox/sistema/Vistas/Modales/AsignarRolAdicional.fxml", "Asignar rol adicional");
         refreshAll();
     }
 
     private void loadUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT id_usuario, id_empleado, nombre_usuario, correo, estado FROM USUARIOS";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+        String sql = "SELECT u.id_usuario, u.id_empleado, (e.nombres + ' ' + e.apellidos) AS nombre_completo, "
+                + "u.nombre_usuario, u.correo, u.estado "
+                + "FROM USUARIOS u "
+                + "INNER JOIN EMPLEADOS e ON u.id_empleado = e.id_empleado";
+
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 Usuario usuario = new Usuario();
+
                 usuario.setIdUsuario(rs.getInt("id_usuario"));
                 usuario.setIdEmpleado(rs.getInt("id_empleado"));
+                usuario.setNombreEmpleado(rs.getString("nombre_completo"));
                 usuario.setNombreUsuario(rs.getString("nombre_usuario"));
                 usuario.setCorreo(rs.getString("correo"));
                 usuario.setEstado(rs.getString("estado"));
@@ -125,9 +131,7 @@ public class SeguridadController {
                 + "FROM USUARIOS_ROLES ur "
                 + "LEFT JOIN USUARIOS u ON ur.id_usuario = u.id_usuario "
                 + "LEFT JOIN ROLES r ON ur.id_rol = r.id_rol";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 UserRole usuarioRol = new UserRole();
                 usuarioRol.setUsuario(rs.getString("usuario"));
@@ -145,9 +149,7 @@ public class SeguridadController {
                 + "FROM ROLES_PERMISOS rp "
                 + "LEFT JOIN ROLES r ON rp.id_rol = r.id_rol "
                 + "LEFT JOIN PERMISOS p ON rp.id_permiso = p.id_permiso";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             while (rs.next()) {
                 RolePermission permiso = new RolePermission();
                 permiso.setRol(rs.getString("rol"));
@@ -212,9 +214,9 @@ public class SeguridadController {
     private void abrirPerfil() {
         try {
             javafx.scene.Parent root = javafx.fxml.FXMLLoader.load(
-                getClass().getResource("/coolbox/sistema/Vistas/Modales/PerfilUsuario.fxml"));
+                    getClass().getResource("/coolbox/sistema/Vistas/Modales/PerfilUsuario.fxml"));
             javafx.stage.Stage dialog = new javafx.stage.Stage();
-            dialog.setTitle("Mi Perfil");
+            dialog.setTitle("Mi perfil");
             dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
             dialog.setScene(new javafx.scene.Scene(root));
             dialog.setResizable(false);
@@ -226,8 +228,18 @@ public class SeguridadController {
 
     private void mostrarNombreEnSidebar() {
         if (lblNombreUsuarioSidebar != null) {
-            String nombre = SesionUsuario.getNombreUsuario();
-            lblNombreUsuarioSidebar.setText(nombre != null ? nombre : "");
+            String nombreReal = coolbox.sistema.Controladores.SesionUsuario.getNombresCompletos();
+            String usuarioRed = coolbox.sistema.Controladores.SesionUsuario.getNombreUsuario();
+
+            System.out.println("DEBUG - Nombre Real: " + nombreReal + " | Username: " + usuarioRed);
+
+            if (nombreReal != null && !nombreReal.trim().isEmpty() && !nombreReal.equalsIgnoreCase("null null")) {
+                lblNombreUsuarioSidebar.setText(nombreReal);
+            } else if (usuarioRed != null && !usuarioRed.trim().isEmpty()) {
+                lblNombreUsuarioSidebar.setText("Usuario: " + usuarioRed);
+            } else {
+                lblNombreUsuarioSidebar.setText("Cargando...");
+            }
         }
     }
 

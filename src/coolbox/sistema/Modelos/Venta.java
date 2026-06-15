@@ -8,7 +8,6 @@ public class Venta {
     private double montoTotal;
     private int cantidadProductos;
     
-    // 🌟 CORRECCIÓN CRÍTICA: Atributo requerido para enlazar el correlativo fiscal (B001-XXXX) en JavaFX
     private String numeroBoleta;
 
     public Venta() {
@@ -62,7 +61,6 @@ public class Venta {
         this.cantidadProductos = cantidadProductos;
     }
 
-    // 🌟 NUEVOS MÉTODOS OBLIGATORIOS PARA INTEGRACIÓN CON TABLEVIEW
     public String getNumeroBoleta() {
         return numeroBoleta;
     }

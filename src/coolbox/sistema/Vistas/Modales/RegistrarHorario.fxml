@@ -25,7 +25,7 @@
                <children>
                   <HBox alignment="CENTER_LEFT">
                      <children>
-                        <Label text="Cronograma General de Ocupación Semanal (Multi-Empleado)" textFill="#222222">
+                        <Label text="Cronograma general de ocupación semanal" textFill="#222222">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -45,9 +45,9 @@
             <HBox alignment="CENTER_LEFT" spacing="15.0" style="-fx-background-color: #E9ECEF; -fx-padding: 10; -fx-background-radius: 6; -fx-border-color: #DEE2E6; -fx-border-radius: 6;">
                <children>
                   <Label style="-fx-font-weight: bold;" text="Vigencia de la Semana:" textFill="#444444" />
-                  <Label text="Fecha Inicio:" />
+                  <Label text="Fecha inicio:" />
                   <DatePicker fx:id="dpFechaInicio" prefWidth="140.0" />
-                  <Label text="Fecha Fin:" />
+                  <Label text="Fecha fin:" />
                   <DatePicker fx:id="dpFechaFin" prefWidth="140.0" />
                </children>
             </HBox>
@@ -56,7 +56,7 @@
                <children>
                   <VBox prefWidth="280.0" spacing="5.0">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Seleccionar Colaborador Activo *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold;" text="Seleccionar colaborador activo *" textFill="#444444" />
                         <ComboBox fx:id="cmbEmpleado" maxWidth="Infinity" onAction="#onEmpleadoSeleccionado" prefHeight="35.0" promptText="Seleccionar empleado..." style="-fx-background-radius: 5; -fx-background-color: white; -fx-border-color: #CCCCCC; -fx-border-radius: 5;" />
                      </children>
                   </VBox>
@@ -64,7 +64,7 @@
                      <children>
                         <HBox alignment="BOTTOM_LEFT">
                            <children>
-                              <Label fx:id="lblJornadaInfo" style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Jornada: Seleccione un colaborador" textFill="#555555" />
+                              <Label fx:id="lblJornadaInfo" style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Jornada: seleccione un colaborador" textFill="#555555" />
                               <Region HBox.hgrow="ALWAYS" />
                               <Label fx:id="lblContadorHoras" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="0 / 0 hrs asignadas a este empleado" textFill="#CC0000" />
                            </children>
@@ -79,19 +79,19 @@
                <children>
                   <VBox prefWidth="140.0" spacing="4.0">
                      <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Día de Destino *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Día de destino *" textFill="#444444" />
                         <ComboBox fx:id="cmbPickerDia" maxWidth="Infinity" prefHeight="32.0" promptText="Día..." style="-fx-background-radius: 5; -fx-background-color: white;" />
                      </children>
                   </VBox>
                   <VBox prefWidth="150.0" spacing="4.0">
                      <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Hora de Inicio *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Hora de inicio *" textFill="#444444" />
                         <ComboBox fx:id="cmbPickerInicio" maxWidth="Infinity" prefHeight="32.0" promptText="Desde..." style="-fx-background-radius: 5; -fx-background-color: white;" />
                      </children>
                   </VBox>
                   <VBox prefWidth="150.0" spacing="4.0">
                      <children>
-                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Hora de Término *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 11px;" text="Hora de término *" textFill="#444444" />
                         <ComboBox fx:id="cmbPickerFin" maxWidth="Infinity" prefHeight="32.0" promptText="Hasta..." style="-fx-background-radius: 5; -fx-background-color: white;" />
                      </children>
                   </VBox>
@@ -105,7 +105,7 @@
                <children>
                   <TableView fx:id="tblMatrizHorario" prefHeight="320.0" prefWidth="910.0" style="-fx-background-radius: 6;">
                     <columns>
-                      <TableColumn fx:id="colTramo" prefWidth="160.0" style="-fx-font-weight: bold;" text="Tramo Horario" />
+                      <TableColumn fx:id="colTramo" prefWidth="160.0" style="-fx-font-weight: bold;" text="Rango horario" />
                       <TableColumn fx:id="colLunes" prefWidth="105.0" text="Lunes" />
                       <TableColumn fx:id="colMartes" prefWidth="105.0" text="Martes" />
                       <TableColumn fx:id="colMiercoles" prefWidth="105.0" text="Miercoles" />
@@ -124,7 +124,7 @@
             <HBox alignment="CENTER_RIGHT" spacing="12.0">
                <children>
                   <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cerrarModal" prefHeight="36.0" prefWidth="100.0" style="-fx-background-color: #E0E0E0; -fx-text-fill: #444444; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Cancelar" />
-                  <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardarHorarioSemanas" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar Cambios Totales" />
+                  <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardarHorarioSemanas" prefHeight="36.0" prefWidth="200.0" style="-fx-background-color: #28A745; -fx-text-fill: white; -fx-background-radius: 6; -fx-font-weight: bold; -fx-cursor: hand;" text="Guardar cambios totales" />
                </children>
             </HBox>
          </children>

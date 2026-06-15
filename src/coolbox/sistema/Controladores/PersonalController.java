@@ -21,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,9 +36,9 @@ import java.util.List;
 public class PersonalController {
 
     @FXML private Button btnNuevoEmpleado;
-    @FXML private Button btnAsignarCargo;
     @FXML private Button btnBajaEmpleado;
     @FXML private Button btnDeshabilitarEmpleado;
+    @FXML private Button btnCambiarTiendaCargo; 
     
     @FXML private Label lblNombreUsuarioSidebar;
     @FXML private Label lblTiendaPrincipal; 
@@ -48,14 +49,13 @@ public class PersonalController {
     @FXML private ComboBox<String> cmbHorarioDia;
 
     @FXML private TableView<Empleado> tblEmpleados;
-    @FXML private TableColumn<Empleado, Integer> colId;
     @FXML private TableColumn<Empleado, String> colNombres;
     @FXML private TableColumn<Empleado, String> colApellidos;
     @FXML private TableColumn<Empleado, String> colDNI;
     @FXML private TableColumn<Empleado, String> colCelular;
     @FXML private TableColumn<Empleado, String> colCorreo;
     @FXML private TableColumn<Empleado, String> colTipo;
-    @FXML private TableColumn<Empleado, Integer> colTienda;
+    @FXML private TableColumn<Empleado, String> colNombreTienda;
 
     @FXML private TableView<Horario> tblHorarios;
     @FXML private TableColumn<Horario, String> colHorarioEmpleado;
@@ -71,12 +71,12 @@ public class PersonalController {
 
     @FXML
     private void initialize() {
+        mostrarNombreEnSidebar(); 
         setupColumns();
         configurarFiltrosHorario();
         refreshAll();
         evaluarRestriccionesDeRol();
         buscarYMostrarNombreTiendaActiva();
-        mostrarNombreEnSidebar();
 
         tblEmpleados.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
             if (btnDeshabilitarEmpleado == null) return;
@@ -129,13 +129,12 @@ public class PersonalController {
         }
     }
 
-    // --- LÓGICA NUEVA: FILTRAR COMBOBOX DE DÍAS SEGÚN LA FECHA ---
     private void actualizarComboDias(LocalDate fechaSeleccionada) {
         if (cmbHorarioDia == null || fechaSeleccionada == null) return;
         cmbHorarioDia.getItems().clear();
         cmbHorarioDia.getItems().add("Todos");
         
-        int diaActual = fechaSeleccionada.getDayOfWeek().getValue(); // 1 = Lunes, 7 = Domingo
+        int diaActual = fechaSeleccionada.getDayOfWeek().getValue();
         
         if (diaActual <= 1) cmbHorarioDia.getItems().add("Lunes");
         if (diaActual <= 2) cmbHorarioDia.getItems().add("Martes");
@@ -191,21 +190,20 @@ public class PersonalController {
                 btnDeshabilitarEmpleado.setDisable(true);
                 btnDeshabilitarEmpleado.setText("🔒 Deshabilitar (Solo Gerente)");
             }
-            if (btnAsignarCargo != null) {
-                btnAsignarCargo.setDisable(true);
+            if (btnCambiarTiendaCargo != null) {
+                btnCambiarTiendaCargo.setDisable(true);
             }
         }
     }
 
     private void setupColumns() {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNombres.setCellValueFactory(new PropertyValueFactory<>("nombres"));
         colApellidos.setCellValueFactory(new PropertyValueFactory<>("apellidos"));
         colDNI.setCellValueFactory(new PropertyValueFactory<>("dni"));
         colCelular.setCellValueFactory(new PropertyValueFactory<>("celular"));
         colCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
         colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
-        colTienda.setCellValueFactory(new PropertyValueFactory<>("idTienda"));
+        colNombreTienda.setCellValueFactory(new PropertyValueFactory<>("nombreTienda"));
 
         colHorarioEmpleado.setCellValueFactory(new PropertyValueFactory<>("empleado"));
         colHorarioDia.setCellValueFactory(new PropertyValueFactory<>("dia"));
@@ -225,9 +223,43 @@ public class PersonalController {
     }
 
     @FXML private void abrirModalRegistrar() { openModal("/coolbox/sistema/Vistas/Modales/RegistrarEmpleado.fxml", "Registrar Empleado"); }
-    @FXML private void abrirModalAsignarCargo() { openModal("/coolbox/sistema/Vistas/Modales/AsignarCargo.fxml", "Asignar Cargo"); }
     @FXML private void abrirModalRegistrarHorario() { openModal("/coolbox/sistema/Vistas/Modales/RegistrarHorario.fxml", "Registrar Horario"); }
     @FXML private void abrirModalValidarCumplimiento() { openModal("/coolbox/sistema/Vistas/Modales/ValidarCumplimientoHoras.fxml", "Validar Cumplimiento"); }
+
+    @FXML
+    private void abrirModalCambiarTiendaCargo() {
+        Empleado empleadoSeleccionado = tblEmpleados.getSelectionModel().getSelectedItem();
+        
+        if (empleadoSeleccionado == null) {
+            mostrarAlerta("Por favor, selecciona un empleado de la lista primero.");
+            return;
+        }
+
+        try {
+            URL url = getClass().getResource("/coolbox/sistema/Vistas/Modales/CambiarTiendaCargo.fxml");
+            if (url == null) {
+                mostrarAlerta("No se encuentra CambiarTiendaCargo.fxml");
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent root = loader.load();
+
+            coolbox.sistema.Controladores.Modales.ModalCambiarTiendaCargoController controller = loader.getController();
+            controller.initData(empleadoSeleccionado);
+
+            Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setTitle("Cambiar Tienda y Cargo");
+            dialog.setScene(new Scene(root));
+            dialog.setResizable(false);
+            dialog.showAndWait(); 
+            
+            refreshAll(); 
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error al abrir la ventana de cambio de tienda y cargo.");
+        }
+    }
 
     @FXML
     private void eliminarEmpleado() {
@@ -290,8 +322,12 @@ public class PersonalController {
         int tiendaDeLaSesion = SesionUsuario.getIdTiendaUsuarioConectado();
 
         String sql = esAdminGlobal
-                ? "SELECT id_empleado AS id, nombres, apellidos, DNI AS dni, celular, correo, tipo_empleado AS tipo, id_tienda, estado FROM EMPLEADOS WHERE ISNULL(estado, 'ACTIVO') <> 'BAJA'"
-                : "SELECT id_empleado AS id, nombres, apellidos, DNI AS dni, celular, correo, tipo_empleado AS tipo, id_tienda, estado FROM EMPLEADOS WHERE id_tienda = ? AND ISNULL(estado, 'ACTIVO') <> 'BAJA'";
+                ? "SELECT e.id_empleado AS id, e.nombres, e.apellidos, e.DNI AS dni, e.celular, e.correo, e.tipo_empleado AS tipo, e.id_tienda, t.nombre_tienda, e.estado " +
+                  "FROM EMPLEADOS e INNER JOIN TIENDAS t ON e.id_tienda = t.id_tienda " +
+                  "WHERE ISNULL(e.estado, 'ACTIVO') <> 'BAJA'"
+                : "SELECT e.id_empleado AS id, e.nombres, e.apellidos, e.DNI AS dni, e.celular, e.correo, e.tipo_empleado AS tipo, e.id_tienda, t.nombre_tienda, e.estado " +
+                  "FROM EMPLEADOS e INNER JOIN TIENDAS t ON e.id_tienda = t.id_tienda " +
+                  "WHERE e.id_tienda = ? AND ISNULL(e.estado, 'ACTIVO') <> 'BAJA'";
 
         try (Connection connection = ConexionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -299,7 +335,7 @@ public class PersonalController {
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     Empleado empleado = new Empleado();
-                    empleado.setId(rs.getInt("id"));
+                    empleado.setId(rs.getInt("id")); 
                     empleado.setNombres(rs.getString("nombres"));
                     empleado.setApellidos(rs.getString("apellidos"));
                     empleado.setDni(rs.getString("dni"));
@@ -307,6 +343,7 @@ public class PersonalController {
                     empleado.setCorreo(rs.getString("correo"));
                     empleado.setTipo(rs.getString("tipo"));
                     empleado.setIdTienda(rs.getInt("id_tienda"));
+                    empleado.setNombreTienda(rs.getString("nombre_tienda")); 
                     empleado.setEstado(rs.getString("estado"));
                     empleados.add(empleado);
                 }
@@ -328,8 +365,6 @@ public class PersonalController {
         LocalDate ini = (dpHorarioInicio != null && dpHorarioInicio.getValue() != null) ? dpHorarioInicio.getValue() : LocalDate.now();
         String diaFiltro = (cmbHorarioDia != null && cmbHorarioDia.getValue() != null) ? cmbHorarioDia.getValue() : "Todos";
 
-        // --- LÓGICA DE BÚSQUEDA CORREGIDA ---
-        // Obtenemos los limites reales de la semana a la que pertenece la fecha seleccionada
         LocalDate lunesSemana = ini.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate domingoSemana = ini.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
@@ -343,7 +378,6 @@ public class PersonalController {
              PreparedStatement statement = connection.prepareStatement(sql.toString())) {
             
             int paramIndex = 1;
-            // Pasamos exactamente los dias que guarda el Modal de Registrar (Lunes y Domingo de esa semana)
             statement.setDate(paramIndex++, java.sql.Date.valueOf(lunesSemana));
             statement.setDate(paramIndex++, java.sql.Date.valueOf(domingoSemana));
             
@@ -356,12 +390,9 @@ public class PersonalController {
                     String diaBD = rs.getString("dia");
                     int diaBDIndex = mapDiaANumero(diaBD);
 
-                    // Filtro de ComboBox
                     if (!"Todos".equals(diaFiltro) && !diaFiltro.equalsIgnoreCase(diaBD)) {
                         continue;
                     }
-                    
-                    // Ocultamos de la tabla los dias anteriores a la fecha seleccionada
                     if (diaBDIndex < diaSeleccionadoIndex) {
                         continue;
                     }
@@ -375,7 +406,7 @@ public class PersonalController {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Esto te mostrará en consola si falla algo en BD
+            e.printStackTrace(); 
         }
         tblHorarios.setItems(FXCollections.observableArrayList(horarios));
     }
@@ -444,9 +475,7 @@ public class PersonalController {
         if ("ADMINISTRADOR".equalsIgnoreCase(rolActual)) {
             openModule("/coolbox/sistema/Vistas/Seguridad.fxml", "Coolbox - Seguridad"); 
         } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "⛔ ACCESO RESTRINGIDO\n\nEl módulo de Seguridad y Control de Cuentas está reservado para los Administradores Globales.", ButtonType.OK);
-            alert.setTitle("Restricción de Privilegios");
-            alert.setHeaderText("Área de Acceso Protegido");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "⛔ NO AUTORIZADO.", ButtonType.OK);
             alert.showAndWait();
         }
     }
@@ -481,8 +510,15 @@ public class PersonalController {
 
     private void mostrarNombreEnSidebar() {
         if (lblNombreUsuarioSidebar != null) {
-            String nombre = SesionUsuario.getNombreUsuario();
-            lblNombreUsuarioSidebar.setText(nombre != null ? nombre : "");
+            String nombreReal = SesionUsuario.getNombresCompletos();
+            String usuarioRed = SesionUsuario.getNombreUsuario();
+            if (nombreReal != null && !nombreReal.trim().isEmpty() && !nombreReal.equalsIgnoreCase("null null")) {
+                lblNombreUsuarioSidebar.setText(nombreReal);
+            } else if (usuarioRed != null && !usuarioRed.trim().isEmpty()) {
+                lblNombreUsuarioSidebar.setText("Usuario: " + usuarioRed);
+            } else {
+                lblNombreUsuarioSidebar.setText("Cargando...");
+            }
         }
     }
 }

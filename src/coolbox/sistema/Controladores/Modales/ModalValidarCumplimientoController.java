@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter; // IMPORTACIÓN ASEGURADA PARA EVITAR EL FALLO DE APERTURA
+import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -25,15 +25,22 @@ import java.util.ResourceBundle;
 
 public class ModalValidarCumplimientoController implements Initializable {
 
-    @FXML private ComboBox<String> cmbEmpleado;
-    @FXML private DatePicker dpFechaSemana;
-    @FXML private TextField txtPeriodo;
-    
-    @FXML private TextField txtHorasCumplidas;
-    @FXML private TextField txtMinutosCumplidos;
-    
-    @FXML private Button btnGuardar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private ComboBox<String> cmbEmpleado;
+    @FXML
+    private DatePicker dpFechaSemana;
+    @FXML
+    private TextField txtPeriodo;
+
+    @FXML
+    private TextField txtHorasCumplidas;
+    @FXML
+    private TextField txtMinutosCumplidos;
+
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Button btnCancelar;
 
     private int idEmpleadoSeleccionado = -1;
     private String tipoEmpleadoContrato = "PT";
@@ -45,10 +52,10 @@ public class ModalValidarCumplimientoController implements Initializable {
         cargarEmpleadosDesdeBD();
         aplicarFiltrosDeSeguridadNumerica();
 
-        // Listener en la propiedad value para que dispare siempre,
-        // tanto al seleccionar del calendario como al escribir la fecha
         dpFechaSemana.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) onFechaSeleccionada();
+            if (newVal != null) {
+                onFechaSeleccionada();
+            }
         });
     }
 
@@ -57,10 +64,9 @@ public class ModalValidarCumplimientoController implements Initializable {
         boolean esAdminGlobal = "ADMINISTRADOR".equalsIgnoreCase(SesionUsuario.getRolUsuario());
 
         String sql = esAdminGlobal ? "SELECT id_empleado, nombres, apellidos FROM EMPLEADOS"
-                                   : "SELECT id_empleado, nombres, apellidos FROM EMPLEADOS WHERE id_tienda = ?";
-                                   
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                : "SELECT id_empleado, nombres, apellidos FROM EMPLEADOS WHERE id_tienda = ?";
+
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             if (!esAdminGlobal) {
                 statement.setInt(1, idTiendaSesion);
             }
@@ -76,24 +82,25 @@ public class ModalValidarCumplimientoController implements Initializable {
     }
 
     private void aplicarFiltrosDeSeguridadNumerica() {
-        // Bloquea por completo el teclado si intentan meter letras o caracteres raros
-        txtHorasCumplidas.setTextFormatter(new TextFormatter<>(change -> 
-            change.getText().matches("\\d*") ? change : null));
-            
-        txtMinutosCumplidos.setTextFormatter(new TextFormatter<>(change -> 
-            change.getText().matches("\\d*") ? change : null));
+
+        txtHorasCumplidas.setTextFormatter(new TextFormatter<>(change
+                -> change.getText().matches("\\d*") ? change : null));
+
+        txtMinutosCumplidos.setTextFormatter(new TextFormatter<>(change
+                -> change.getText().matches("\\d*") ? change : null));
     }
 
     @FXML
     private void onEmpleadoSeleccionado() {
         String seleccionado = cmbEmpleado.getValue();
-        if (seleccionado == null) return;
+        if (seleccionado == null) {
+            return;
+        }
 
         idEmpleadoSeleccionado = Integer.parseInt(seleccionado.split(" - ")[0]);
-        
+
         String sql = "SELECT tipo_empleado FROM EMPLEADOS WHERE id_empleado = ?";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, idEmpleadoSeleccionado);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -103,14 +110,16 @@ public class ModalValidarCumplimientoController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         evaluarTiempoIngresado();
     }
 
     @FXML
     private void onFechaSeleccionada() {
         LocalDate fechaElegida = dpFechaSemana.getValue();
-        if (fechaElegida == null) return;
+        if (fechaElegida == null) {
+            return;
+        }
 
         LocalDate lunesDeEsaSemana = fechaElegida.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         LocalDate domingoDeEsaSemana = fechaElegida.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
@@ -145,7 +154,7 @@ public class ModalValidarCumplimientoController implements Initializable {
             totalHorasDecimalFinal = horas + fraccionMinutos;
 
             btnGuardar.setDisable(false);
-            
+
         } catch (NumberFormatException e) {
             btnGuardar.setDisable(true);
         }
@@ -153,24 +162,25 @@ public class ModalValidarCumplimientoController implements Initializable {
 
     @FXML
     private void guardarValidacion() {
-        if (idEmpleadoSeleccionado == -1 || stringRangoPeriodo.isEmpty()) return;
+        if (idEmpleadoSeleccionado == -1 || stringRangoPeriodo.isEmpty()) {
+            return;
+        }
 
         String estadoValidacion = "cumplido";
         if ("FT".equalsIgnoreCase(tipoEmpleadoContrato) && totalHorasDecimalFinal < 48.0) {
-            estadoValidacion = "incumplido"; 
+            estadoValidacion = "incumplido";
         } else if ("PT".equalsIgnoreCase(tipoEmpleadoContrato) && totalHorasDecimalFinal < 24.0) {
-            estadoValidacion = "incumplido"; 
+            estadoValidacion = "incumplido";
         }
 
         String sqlInsert = "INSERT INTO CUMPLIMIENTO_HORAS (id_empleado, horas_semana, tipo_empleado, estado_validacion, periodo) VALUES (?, ?, ?, ?, ?)";
 
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sqlInsert)) {
-            
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sqlInsert)) {
+
             statement.setInt(1, idEmpleadoSeleccionado);
-            statement.setDouble(2, totalHorasDecimalFinal); 
+            statement.setDouble(2, totalHorasDecimalFinal);
             statement.setString(3, tipoEmpleadoContrato);
-            statement.setString(4, estadoValidacion); 
+            statement.setString(4, estadoValidacion);
             statement.setString(5, stringRangoPeriodo);
 
             int filas = statement.executeUpdate();
@@ -184,7 +194,10 @@ public class ModalValidarCumplimientoController implements Initializable {
         }
     }
 
-    @FXML private void cerrarModal() { ((Stage) btnCancelar.getScene().getWindow()).close(); }
+    @FXML
+    private void cerrarModal() {
+        ((Stage) btnCancelar.getScene().getWindow()).close();
+    }
 
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);

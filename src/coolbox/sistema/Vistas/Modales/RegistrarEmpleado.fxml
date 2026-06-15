@@ -22,12 +22,12 @@
          <children>
             <VBox spacing="5.0">
                <children>
-                  <Label text="Registrar Nuevo Empleado" textFill="#222222">
+                  <Label text="Registrar nuevo empleado" textFill="#222222">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Label fx:id="lblTiendaDestinoModal" text="📍 Registrando en sucursal: Cargando sede..." textFill="#1565C0">
+                  <Label fx:id="lblTiendaDestinoModal" text="📍 Sede: Cargando sede..." textFill="#1565C0">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -79,7 +79,7 @@
                   
                   <VBox spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Correo Electrónico *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold;" text="Correo electrónico *" textFill="#444444" />
                         <TextField fx:id="txtCorreo" prefHeight="35.0" promptText="ejemplo@coolbox.com" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
                      </children>
                   </VBox>
@@ -93,21 +93,21 @@
                   
                   <VBox spacing="5.0" GridPane.rowIndex="4">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Asignar Tienda *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold;" text="Asignar tienda *" textFill="#444444" />
                         <ComboBox fx:id="cmbTienda" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccionar..." style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
                      </children>
                   </VBox>
                   
                   <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Tipo de Jornada *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold;" text="Tipo de jornada *" textFill="#444444" />
                         <ComboBox fx:id="cmbTipoEmpleado" maxWidth="Infinity" prefHeight="35.0" promptText="FT / PT" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
                      </children>
                   </VBox>
                   
                   <VBox spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="5">
                      <children>
-                        <Label style="-fx-font-weight: bold;" text="Cargo Asignado *" textFill="#444444" />
+                        <Label style="-fx-font-weight: bold;" text="Cargo asignado *" textFill="#444444" />
                         <ComboBox fx:id="cmbCargo" maxWidth="Infinity" prefHeight="35.0" promptText="Seleccione el cargo dentro de la tienda" style="-fx-background-radius: 6; -fx-border-color: #CCCCCC; -fx-border-radius: 6; -fx-background-color: #FAFAFA;" />
                      </children>
                   </VBox>

@@ -4,7 +4,7 @@ import coolbox.sistema.Conexion.ConexionDB;
 import coolbox.sistema.Modelos.Empleado;
 import coolbox.sistema.Modelos.Producto;
 import coolbox.sistema.Modelos.Tienda;
-import coolbox.sistema.Controladores.SesionUsuario; // Sincronizado correctamente a Controladores
+import coolbox.sistema.Controladores.SesionUsuario;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,13 +19,20 @@ import java.sql.SQLException;
 
 public class ModalRealizarTrasladoController {
 
-    @FXML private ComboBox<Tienda> cmbTiendaOrigen;
-    @FXML private ComboBox<Tienda> cmbTiendaDestino;
-    @FXML private ComboBox<Producto> cmbProducto;
-    @FXML private TextField txtCantidad;
-    @FXML private ComboBox<Empleado> cmbEmpleado;
-    @FXML private Button btnGuardar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private ComboBox<Tienda> cmbTiendaOrigen;
+    @FXML
+    private ComboBox<Tienda> cmbTiendaDestino;
+    @FXML
+    private ComboBox<Producto> cmbProducto;
+    @FXML
+    private TextField txtCantidad;
+    @FXML
+    private ComboBox<Empleado> cmbEmpleado;
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Button btnCancelar;
 
     private int idTiendaUsuario = -1;
 
@@ -43,32 +50,33 @@ public class ModalRealizarTrasladoController {
         try (Connection con = ConexionDB.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, SesionUsuario.getNombreUsuario());
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) idTiendaUsuario = rs.getInt("id_tienda");
+                if (rs.next()) {
+                    idTiendaUsuario = rs.getInt("id_tienda");
+                }
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadTiendas() {
-        // CORRECCIÓN SIN MISTERIOS: Columnas reales extraídas exactamente de tu tabla física
+
         String sql = "SELECT id_tienda, nombre_tienda, centro_comercial FROM TIENDAS";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
-            
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
+
             var tiendas = FXCollections.<Tienda>observableArrayList();
             while (rs.next()) {
                 Tienda tienda = new Tienda();
                 tienda.setIdTienda(rs.getInt("id_tienda"));
                 tienda.setNombreTienda(rs.getString("nombre_tienda"));
-                tienda.setCentroComercial(rs.getString("centro_comercial")); // Sincronizado nativamente con el modelo
-                
+                tienda.setCentroComercial(rs.getString("centro_comercial"));
+
                 tiendas.add(tienda);
             }
-            
+
             cmbTiendaOrigen.setItems(tiendas);
             cmbTiendaDestino.setItems(tiendas);
 
-            // Preselección automática para no administradores
             if (!"ADMINISTRADOR".equalsIgnoreCase(SesionUsuario.getRolUsuario())) {
                 for (Tienda t : tiendas) {
                     if (t.getIdTienda() == idTiendaUsuario) {
@@ -85,14 +93,12 @@ public class ModalRealizarTrasladoController {
 
     private void loadProductos() {
         String sql = "SELECT id_producto, nombre, precio FROM PRODUCTOS";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
             var productos = FXCollections.<Producto>observableArrayList();
             while (rs.next()) {
                 Producto producto = new Producto();
                 producto.setIdProducto(rs.getInt("id_producto"));
-                producto.setDescripcion(rs.getString("nombre")); 
+                producto.setDescripcion(rs.getString("nombre"));
                 producto.setPrecio(rs.getDouble("precio"));
                 productos.add(producto);
             }
@@ -103,23 +109,21 @@ public class ModalRealizarTrasladoController {
 
     private void loadEmpleados() {
         StringBuilder sql = new StringBuilder(
-            "SELECT e.id_empleado, e.nombres, e.apellidos FROM EMPLEADOS e " +
-            "INNER JOIN EMPLEADOS_CARGOS ec ON e.id_empleado = ec.id_empleado " +
-            "INNER JOIN CARGOS c ON ec.id_cargo = c.id_cargo " +
-            "WHERE c.nombre_cargo IN ('Gerente', 'Subgerente')"
+                "SELECT e.id_empleado, e.nombres, e.apellidos FROM EMPLEADOS e "
+                + "INNER JOIN EMPLEADOS_CARGOS ec ON e.id_empleado = ec.id_empleado "
+                + "INNER JOIN CARGOS c ON ec.id_cargo = c.id_cargo "
+                + "WHERE c.nombre_cargo IN ('Gerente', 'Subgerente')"
         );
-        
+
         if (!"ADMINISTRADOR".equalsIgnoreCase(SesionUsuario.getRolUsuario())) {
             sql.append(" AND e.id_tienda = ").append(idTiendaUsuario);
         }
-                     
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql.toString());
-             ResultSet rs = statement.executeQuery()) {
+
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql.toString()); ResultSet rs = statement.executeQuery()) {
             var empleados = FXCollections.<Empleado>observableArrayList();
             while (rs.next()) {
                 Empleado empleado = new Empleado();
-                empleado.setId(rs.getInt("id_empleado")); 
+                empleado.setId(rs.getInt("id_empleado"));
                 empleado.setNombres(rs.getString("nombres"));
                 empleado.setApellidos(rs.getString("apellidos"));
                 empleados.add(empleado);
@@ -148,21 +152,21 @@ public class ModalRealizarTrasladoController {
         }
 
         try (Connection connection = ConexionDB.getConnection()) {
-            connection.setAutoCommit(false); 
+            connection.setAutoCommit(false);
 
             int sourceInventoryId = getInventarioId(connection, origen.getIdTienda(), producto.getIdProducto());
             int sourceStock = getStockActual(connection, origen.getIdTienda(), producto.getIdProducto());
-            
+
             if (sourceInventoryId < 0 || sourceStock < cantidad) {
                 System.err.println("❌ Stock insuficiente en la sucursal de origen.");
                 return;
             }
-            
+
             int newSourceStock = sourceStock - cantidad;
             updateInventario(connection, sourceInventoryId, newSourceStock);
-            
+
             saveTraslado(connection, producto.getIdProducto(), origen.getIdTienda(), destino.getIdTienda(), cantidad, empleado.getId());
-            
+
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,7 +180,9 @@ public class ModalRealizarTrasladoController {
             statement.setInt(1, idTienda);
             statement.setInt(2, idProducto);
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) return rs.getInt("id_inventario");
+                if (rs.next()) {
+                    return rs.getInt("id_inventario");
+                }
             }
         }
         return -1;
@@ -188,7 +194,9 @@ public class ModalRealizarTrasladoController {
             statement.setInt(1, idTienda);
             statement.setInt(2, idProducto);
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) return rs.getInt("stock_actual");
+                if (rs.next()) {
+                    return rs.getInt("stock_actual");
+                }
             }
         }
         return 0;
@@ -204,8 +212,8 @@ public class ModalRealizarTrasladoController {
     }
 
     private void saveTraslado(Connection connection, int idProducto, int origen, int destino, int cantidad, int idEmpleado) throws SQLException {
-        String sql = "INSERT INTO TRASLADOS(id_producto, id_tienda_origen, id_tienda_destino, cantidad, id_empleado, fecha, estado) " +
-                     "VALUES(?, ?, ?, ?, ?, CAST(GETDATE() AS DATE), 'Pendiente')";
+        String sql = "INSERT INTO TRASLADOS(id_producto, id_tienda_origen, id_tienda_destino, cantidad, id_empleado, fecha, estado) "
+                + "VALUES(?, ?, ?, ?, ?, CAST(GETDATE() AS DATE), 'Pendiente')";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, idProducto);
             statement.setInt(2, origen);
@@ -217,9 +225,19 @@ public class ModalRealizarTrasladoController {
     }
 
     private int parseInteger(String value) {
-        try { return Integer.parseInt(value.trim()); } catch (Exception e) { return 0; }
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
-    @FXML private void cerrarModal() { closeWindow(); }
-    private void closeWindow() { ((Stage) btnCancelar.getScene().getWindow()).close(); }
+    @FXML
+    private void cerrarModal() {
+        closeWindow();
+    }
+
+    private void closeWindow() {
+        ((Stage) btnCancelar.getScene().getWindow()).close();
+    }
 }

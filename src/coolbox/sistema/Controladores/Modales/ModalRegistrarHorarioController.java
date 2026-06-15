@@ -29,37 +29,52 @@ import java.util.ResourceBundle;
 
 public class ModalRegistrarHorarioController implements Initializable {
 
-    @FXML private ComboBox<String> cmbEmpleado;
-    @FXML private Label lblJornadaInfo;
-    @FXML private Label lblContadorHoras;
-    @FXML private Label lblTiendaCabecera; 
-    @FXML private ProgressBar progressHoras;
-    @FXML private Button btnGuardar;
-    @FXML private Button btnCancelar;
+    @FXML
+    private ComboBox<String> cmbEmpleado;
+    @FXML
+    private Label lblJornadaInfo;
+    @FXML
+    private Label lblContadorHoras;
+    @FXML
+    private Label lblTiendaCabecera;
+    @FXML
+    private ProgressBar progressHoras;
+    @FXML
+    private Button btnGuardar;
+    @FXML
+    private Button btnCancelar;
 
-    @FXML private ComboBox<String> cmbPickerDia;
-    @FXML private ComboBox<String> cmbPickerInicio;
-    @FXML private ComboBox<String> cmbPickerFin;
+    @FXML
+    private ComboBox<String> cmbPickerDia;
+    @FXML
+    private ComboBox<String> cmbPickerInicio;
+    @FXML
+    private ComboBox<String> cmbPickerFin;
 
-    @FXML private DatePicker dpFechaInicio;
-    @FXML private DatePicker dpFechaFin;
+    @FXML
+    private DatePicker dpFechaInicio;
+    @FXML
+    private DatePicker dpFechaFin;
 
-    @FXML private TableView<FilaHorarioGrafico> tblMatrizHorario;
-    @FXML private TableColumn<FilaHorarioGrafico, String> colTramo;
-    @FXML private TableColumn<FilaHorarioGrafico, List<AsignacionItem>> colLunes, colMartes, colMiercoles, colJueves, colViernes, colSabado, colDomingo;
+    @FXML
+    private TableView<FilaHorarioGrafico> tblMatrizHorario;
+    @FXML
+    private TableColumn<FilaHorarioGrafico, String> colTramo;
+    @FXML
+    private TableColumn<FilaHorarioGrafico, List<AsignacionItem>> colLunes, colMartes, colMiercoles, colJueves, colViernes, colSabado, colDomingo;
 
-    private int horasObjetivo = 0; 
+    private int horasObjetivo = 0;
     private int horasAsignadasActuales = 0;
     private String esFullTimeOPT = "PT";
-    private String nombreTiendaActual = "Sucursal Activa"; 
+    private String nombreTiendaActual = "Sucursal Activa";
 
     private final String[] paletaColores = {
-        "-fx-background-color: #20c997; -fx-text-fill: white;", // Colaborador 1 - Menta
-        "-fx-background-color: #0d6efd; -fx-text-fill: white;", // Colaborador 2 - Azul
-        "-fx-background-color: #6f42c1; -fx-text-fill: white;", // Colaborador 3 - Púrpura
-        "-fx-background-color: #d63384; -fx-text-fill: white;", // Colaborador 4 - Rosado
-        "-fx-background-color: #fd7e14; -fx-text-fill: white;", // Colaborador 5 - Naranja
-        "-fx-background-color: #198754; -fx-text-fill: white;"  // Colaborador 6 - Verde
+        "-fx-background-color: #20c997; -fx-text-fill: white;",
+        "-fx-background-color: #0d6efd; -fx-text-fill: white;",
+        "-fx-background-color: #6f42c1; -fx-text-fill: white;",
+        "-fx-background-color: #d63384; -fx-text-fill: white;",
+        "-fx-background-color: #fd7e14; -fx-text-fill: white;",
+        "-fx-background-color: #198754; -fx-text-fill: white;"
     };
 
     @Override
@@ -72,7 +87,6 @@ public class ModalRegistrarHorarioController implements Initializable {
     }
 
     private void configurarFechasAutomaticas() {
-        // Calcular el lunes mas cercano desde hoy en adelante
         LocalDate hoy = LocalDate.now();
         LocalDate lunesProximo = hoy.with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
         LocalDate domingoProximo = lunesProximo.plusDays(6);
@@ -80,7 +94,6 @@ public class ModalRegistrarHorarioController implements Initializable {
         dpFechaInicio.setValue(lunesProximo);
         dpFechaFin.setValue(domingoProximo);
 
-        // Bloquear ambos DatePickers para que no se puedan cambiar manualmente
         dpFechaInicio.setDisable(true);
         dpFechaFin.setDisable(true);
     }
@@ -88,9 +101,8 @@ public class ModalRegistrarHorarioController implements Initializable {
     private void obtenerYMostrarNombreTienda() {
         int idTiendaSesion = SesionUsuario.getIdTiendaUsuarioConectado();
         String sql = "SELECT nombre_tienda FROM TIENDAS WHERE id_tienda = ?";
-        
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, idTiendaSesion);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -100,7 +112,7 @@ public class ModalRegistrarHorarioController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         if (lblTiendaCabecera != null) {
             lblTiendaCabecera.setText("🏪 TIENDA: " + nombreTiendaActual.toUpperCase());
         }
@@ -111,9 +123,8 @@ public class ModalRegistrarHorarioController implements Initializable {
         boolean esAdminGlobal = "ADMINISTRADOR".equalsIgnoreCase(SesionUsuario.getRolUsuario());
 
         String sql = esAdminGlobal ? "SELECT id_empleado, nombres, apellidos FROM EMPLEADOS"
-                                   : "SELECT id_empleado, nombres, apellidos FROM EMPLEADOS WHERE id_tienda = ?";
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+                : "SELECT id_empleado, nombres, apellidos FROM EMPLEADOS WHERE id_tienda = ?";
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             if (!esAdminGlobal) {
                 statement.setInt(1, idTiendaSesion);
             }
@@ -137,13 +148,14 @@ public class ModalRegistrarHorarioController implements Initializable {
     @FXML
     private void onEmpleadoSeleccionado() {
         String seleccionado = cmbEmpleado.getValue();
-        if (seleccionado == null) return;
+        if (seleccionado == null) {
+            return;
+        }
 
         int idEmpleado = Integer.parseInt(seleccionado.split(" - ")[0]);
         String sql = "SELECT tipo_empleado FROM EMPLEADOS WHERE id_empleado = ?";
 
-        try (Connection connection = ConexionDB.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = ConexionDB.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, idEmpleado);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -166,7 +178,7 @@ public class ModalRegistrarHorarioController implements Initializable {
     @SuppressWarnings("unchecked")
     private void configurarTablaGrafica() {
         colTramo.setCellValueFactory(c -> c.getValue().tramoProperty());
-        
+
         colLunes.setCellValueFactory(c -> c.getValue().lunesProperty());
         colMartes.setCellValueFactory(c -> c.getValue().martesProperty());
         colMiercoles.setCellValueFactory(c -> c.getValue().miercolesProperty());
@@ -175,8 +187,8 @@ public class ModalRegistrarHorarioController implements Initializable {
         colSabado.setCellValueFactory(c -> c.getValue().sabadoProperty());
         colDomingo.setCellValueFactory(c -> c.getValue().domingoProperty());
 
-        ObservableList<TableColumn<FilaHorarioGrafico, List<AsignacionItem>>> columnasDias = 
-            FXCollections.observableArrayList(colLunes, colMartes, colMiercoles, colJueves, colViernes, colSabado, colDomingo);
+        ObservableList<TableColumn<FilaHorarioGrafico, List<AsignacionItem>>> columnasDias
+                = FXCollections.observableArrayList(colLunes, colMartes, colMiercoles, colJueves, colViernes, colSabado, colDomingo);
 
         for (TableColumn<FilaHorarioGrafico, List<AsignacionItem>> col : columnasDias) {
             col.setCellFactory(column -> new TableCell<FilaHorarioGrafico, List<AsignacionItem>>() {
@@ -187,9 +199,9 @@ public class ModalRegistrarHorarioController implements Initializable {
                         setGraphic(null);
                         setStyle("");
                     } else {
-                        VBox contenedorBloques = new VBox(2); 
+                        VBox contenedorBloques = new VBox(2);
                         contenedorBloques.setStyle("-fx-alignment: center;");
-                        
+
                         for (AsignacionItem item : items) {
                             Label lblBloque = new Label();
                             if (item.esBreak) {
@@ -212,12 +224,12 @@ public class ModalRegistrarHorarioController implements Initializable {
 
     private void resetearEstructuraFilas() {
         ObservableList<FilaHorarioGrafico> tramos = FXCollections.observableArrayList(
-            new FilaHorarioGrafico("10:00 AM - 11:00 AM"), new FilaHorarioGrafico("11:00 AM - 12:00 PM"),
-            new FilaHorarioGrafico("12:00 PM - 01:00 PM"), new FilaHorarioGrafico("01:00 PM - 02:00 PM"),
-            new FilaHorarioGrafico("02:00 PM - 03:00 PM"), new FilaHorarioGrafico("03:00 PM - 04:00 PM"),
-            new FilaHorarioGrafico("04:00 PM - 05:00 PM"), new FilaHorarioGrafico("05:00 PM - 06:00 PM"),
-            new FilaHorarioGrafico("06:00 PM - 07:00 PM"), new FilaHorarioGrafico("07:00 PM - 08:00 PM"),
-            new FilaHorarioGrafico("08:00 PM - 09:00 PM"), new FilaHorarioGrafico("09:00 PM - 10:00 PM")
+                new FilaHorarioGrafico("10:00 AM - 11:00 AM"), new FilaHorarioGrafico("11:00 AM - 12:00 PM"),
+                new FilaHorarioGrafico("12:00 PM - 01:00 PM"), new FilaHorarioGrafico("01:00 PM - 02:00 PM"),
+                new FilaHorarioGrafico("02:00 PM - 03:00 PM"), new FilaHorarioGrafico("03:00 PM - 04:00 PM"),
+                new FilaHorarioGrafico("04:00 PM - 05:00 PM"), new FilaHorarioGrafico("05:00 PM - 06:00 PM"),
+                new FilaHorarioGrafico("06:00 PM - 07:00 PM"), new FilaHorarioGrafico("07:00 PM - 08:00 PM"),
+                new FilaHorarioGrafico("08:00 PM - 09:00 PM"), new FilaHorarioGrafico("09:00 PM - 10:00 PM")
         );
         tblMatrizHorario.setItems(tramos);
     }
@@ -229,7 +241,9 @@ public class ModalRegistrarHorarioController implements Initializable {
         String inicio = cmbPickerInicio.getValue();
         String fin = cmbPickerFin.getValue();
 
-        if (empleadoSeleccionado == null || dia == null || inicio == null || fin == null) return;
+        if (empleadoSeleccionado == null || dia == null || inicio == null || fin == null) {
+            return;
+        }
 
         int idEmpleado = Integer.parseInt(empleadoSeleccionado.split(" - ")[0]);
         String nombreEmpleado = empleadoSeleccionado.split(" - ")[1].split(" ")[0];
@@ -237,7 +251,9 @@ public class ModalRegistrarHorarioController implements Initializable {
         int idxInicio = cmbPickerInicio.getItems().indexOf(inicio);
         int idxFin = cmbPickerFin.getItems().indexOf(fin);
 
-        if (idxInicio > idxFin) return;
+        if (idxInicio > idxFin) {
+            return;
+        }
 
         for (int i = idxInicio; i <= idxFin; i++) {
             tblMatrizHorario.getItems().get(i).agregarAsignacion(dia, new AsignacionItem(idEmpleado, nombreEmpleado, false));
@@ -257,7 +273,9 @@ public class ModalRegistrarHorarioController implements Initializable {
 
     private void actualizarProgresoHorasEfectivas() {
         String seleccionado = cmbEmpleado.getValue();
-        if (seleccionado == null) return;
+        if (seleccionado == null) {
+            return;
+        }
 
         int idEmpleadoActual = Integer.parseInt(seleccionado.split(" - ")[0]);
         String[] dias = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
@@ -307,18 +325,16 @@ public class ModalRegistrarHorarioController implements Initializable {
             return;
         }
 
-        // Verificar si ya existe horario registrado para este periodo en esta tienda
         String sqlCheck = "SELECT COUNT(*) FROM HORARIOS WHERE id_tienda = ? AND fecha_inicio = ? AND fecha_fin = ?";
-        try (Connection connCheck = ConexionDB.getConnection();
-             PreparedStatement stmtCheck = connCheck.prepareStatement(sqlCheck)) {
+        try (Connection connCheck = ConexionDB.getConnection(); PreparedStatement stmtCheck = connCheck.prepareStatement(sqlCheck)) {
             stmtCheck.setInt(1, SesionUsuario.getIdTiendaUsuarioConectado());
             stmtCheck.setString(2, fechaInicio.toString());
             stmtCheck.setString(3, fechaFin.toString());
             try (ResultSet rsCheck = stmtCheck.executeQuery()) {
                 if (rsCheck.next() && rsCheck.getInt(1) > 0) {
                     Alert alert = new Alert(Alert.AlertType.WARNING,
-                        "Ya existe un horario registrado para el periodo del " + fechaInicio + " al " + fechaFin + ".\n" +
-                        "No es posible registrar un horario duplicado para el mismo periodo.", ButtonType.OK);
+                            "Ya existe un horario registrado para el periodo del " + fechaInicio + " al " + fechaFin + ".\n"
+                            + "No es posible registrar un horario duplicado para el mismo periodo.", ButtonType.OK);
                     alert.setTitle("Periodo ya registrado");
                     alert.setHeaderText(null);
                     alert.showAndWait();
@@ -340,7 +356,7 @@ public class ModalRegistrarHorarioController implements Initializable {
             for (String d : dias) {
                 for (FilaHorarioGrafico fila : tblMatrizHorario.getItems()) {
                     List<AsignacionItem> listaAsignaciones = fila.getAsignacionesPorDia(d);
-                    
+
                     for (AsignacionItem asig : listaAsignaciones) {
                         int idEmp = asig.idEmpleado;
                         String tramoTxt = fila.getTramo();
@@ -389,12 +405,15 @@ public class ModalRegistrarHorarioController implements Initializable {
         String soloNumeros = horaFmt.replace("AM", "").replace("PM", "").trim();
         int horaInt = Integer.parseInt(soloNumeros.split(":")[0]);
         String minutos = soloNumeros.split(":")[1];
-        if (esPM && horaInt != 12) horaInt += 12;
-        if (!esPM && horaInt == 12) horaInt = 0;
+        if (esPM && horaInt != 12) {
+            horaInt += 12;
+        }
+        if (!esPM && horaInt == 12) {
+            horaInt = 0;
+        }
         return String.format("%02d:%s:00", horaInt, minutos);
     }
 
-    // EXPORTACIÓN A EXCEL (.CSV) CON TRATAMIENTO DE EMPLEADOS MULTIPLE EN SIMULTÁNEO
     @FXML
     private void exportarCronogramaAExcel() {
         if (tblMatrizHorario.getItems().isEmpty()) {
@@ -411,12 +430,14 @@ public class ModalRegistrarHorarioController implements Initializable {
         Stage stage = (Stage) btnCancelar.getScene().getWindow();
         java.io.File file = fileChooser.showSaveDialog(stage);
 
-        if (file == null) return; 
+        if (file == null) {
+            return;
+        }
 
         try (java.io.BufferedWriter writer = new java.io.BufferedWriter(
                 new java.io.OutputStreamWriter(new java.io.FileOutputStream(file), java.nio.charset.StandardCharsets.UTF_8))) {
-            
-            writer.write('\ufeff'); // BOM UTF-8 para compatibilidad absoluta de tildes en Excel
+
+            writer.write('\ufeff');
 
             writer.write("COOLBOX - CONTROL DE PLANIFICACIÓN SEMANAL\n");
             writer.write("SUCURSAL:;" + nombreTiendaActual.toUpperCase() + "\n\n");
@@ -429,7 +450,7 @@ public class ModalRegistrarHorarioController implements Initializable {
 
                 for (String d : dias) {
                     List<AsignacionItem> asignacionesCelda = fila.getAsignacionesPorDia(d);
-                    
+
                     if (asignacionesCelda.isEmpty()) {
                         lineaFila.append(";[ Libre ]");
                     } else {
@@ -452,7 +473,7 @@ public class ModalRegistrarHorarioController implements Initializable {
             }
 
             Alert éxitoAlert = new Alert(Alert.AlertType.INFORMATION, "¡Cronograma exportado con éxito!\nEl archivo se guardó en: " + file.getAbsolutePath(), ButtonType.OK);
-            éxitoAlert.setTitle("Exportación Exitosa");
+            éxitoAlert.setTitle("Exportación exitosa");
             éxitoAlert.setHeaderText(null);
             éxitoAlert.showAndWait();
 
@@ -463,13 +484,23 @@ public class ModalRegistrarHorarioController implements Initializable {
         }
     }
 
-    @FXML private void limpiarMatriz() { resetearEStructureFilas(); actualizarProgresoHorasEfectivas(); }
-    
-    private void resetearEStructureFilas() { resetearEstructuraFilas(); }
+    @FXML
+    private void limpiarMatriz() {
+        resetearEStructureFilas();
+        actualizarProgresoHorasEfectivas();
+    }
 
-    @FXML private void cerrarModal() { ((Stage) btnCancelar.getScene().getWindow()).close(); }
+    private void resetearEStructureFilas() {
+        resetearEstructuraFilas();
+    }
+
+    @FXML
+    private void cerrarModal() {
+        ((Stage) btnCancelar.getScene().getWindow()).close();
+    }
 
     public static class AsignacionItem {
+
         public int idEmpleado;
         public String nombreEmpleado;
         public boolean esBreak;
@@ -482,6 +513,7 @@ public class ModalRegistrarHorarioController implements Initializable {
     }
 
     public static class FilaHorarioGrafico {
+
         private final SimpleStringProperty tramo;
         private final SimpleObjectProperty<List<AsignacionItem>> lunes, martes, miercoles, jueves, viernes, sabado, domingo;
 
@@ -496,16 +528,41 @@ public class ModalRegistrarHorarioController implements Initializable {
             this.domingo = new SimpleObjectProperty<>(new ArrayList<>());
         }
 
-        public String getTramo() { return tramo.get(); }
-        public SimpleStringProperty tramoProperty() { return tramo; }
-        
-        public SimpleObjectProperty<List<AsignacionItem>> lunesProperty() { return lunes; }
-        public SimpleObjectProperty<List<AsignacionItem>> martesProperty() { return martes; }
-        public SimpleObjectProperty<List<AsignacionItem>> miercolesProperty() { return miercoles; }
-        public SimpleObjectProperty<List<AsignacionItem>> juevesProperty() { return jueves; }
-        public SimpleObjectProperty<List<AsignacionItem>> viernesProperty() { return viernes; }
-        public SimpleObjectProperty<List<AsignacionItem>> sabadoProperty() { return sabado; }
-        public SimpleObjectProperty<List<AsignacionItem>> domingoProperty() { return domingo; }
+        public String getTramo() {
+            return tramo.get();
+        }
+
+        public SimpleStringProperty tramoProperty() {
+            return tramo;
+        }
+
+        public SimpleObjectProperty<List<AsignacionItem>> lunesProperty() {
+            return lunes;
+        }
+
+        public SimpleObjectProperty<List<AsignacionItem>> martesProperty() {
+            return martes;
+        }
+
+        public SimpleObjectProperty<List<AsignacionItem>> miercolesProperty() {
+            return miercoles;
+        }
+
+        public SimpleObjectProperty<List<AsignacionItem>> juevesProperty() {
+            return jueves;
+        }
+
+        public SimpleObjectProperty<List<AsignacionItem>> viernesProperty() {
+            return viernes;
+        }
+
+        public SimpleObjectProperty<List<AsignacionItem>> sabadoProperty() {
+            return sabado;
+        }
+
+        public SimpleObjectProperty<List<AsignacionItem>> domingoProperty() {
+            return domingo;
+        }
 
         public void agregarAsignacion(String nombreDia, AsignacionItem item) {
             List<AsignacionItem> lista = getAsignacionesPorDia(nombreDia);
@@ -514,13 +571,27 @@ public class ModalRegistrarHorarioController implements Initializable {
         }
 
         public List<AsignacionItem> getAsignacionesPorDia(String dia) {
-            if ("Lunes".equalsIgnoreCase(dia)) return lunes.get();
-            if ("Martes".equalsIgnoreCase(dia)) return martes.get();
-            if ("Miercoles".equalsIgnoreCase(dia)) return miercoles.get();
-            if ("Jueves".equalsIgnoreCase(dia)) return jueves.get();
-            if ("Viernes".equalsIgnoreCase(dia)) return viernes.get();
-            if ("Sabado".equalsIgnoreCase(dia)) return sabado.get();
-            if ("Domingo".equalsIgnoreCase(dia)) return domingo.get();
+            if ("Lunes".equalsIgnoreCase(dia)) {
+                return lunes.get();
+            }
+            if ("Martes".equalsIgnoreCase(dia)) {
+                return martes.get();
+            }
+            if ("Miercoles".equalsIgnoreCase(dia)) {
+                return miercoles.get();
+            }
+            if ("Jueves".equalsIgnoreCase(dia)) {
+                return jueves.get();
+            }
+            if ("Viernes".equalsIgnoreCase(dia)) {
+                return viernes.get();
+            }
+            if ("Sabado".equalsIgnoreCase(dia)) {
+                return sabado.get();
+            }
+            if ("Domingo".equalsIgnoreCase(dia)) {
+                return domingo.get();
+            }
             return new ArrayList<>();
         }
     }

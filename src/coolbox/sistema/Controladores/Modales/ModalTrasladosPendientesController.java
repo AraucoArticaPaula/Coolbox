@@ -2,7 +2,7 @@ package coolbox.sistema.Controladores.Modales;
 
 import coolbox.sistema.Conexion.ConexionDB;
 import coolbox.sistema.Modelos.Traslado;
-import coolbox.sistema.Controladores.SesionUsuario; // 👈 IMPORTACIÓN OBLIGATORIA AGREGADA
+import coolbox.sistema.Controladores.SesionUsuario;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,11 +21,16 @@ import java.sql.SQLException;
 
 public class ModalTrasladosPendientesController {
 
-    @FXML private TableView<Traslado> tblPendientes;
-    @FXML private TableColumn<Traslado, String> colProd;
-    @FXML private TableColumn<Traslado, String> colOrig;
-    @FXML private TableColumn<Traslado, Integer> colCant;
-    @FXML private Button btnCerrar;
+    @FXML
+    private TableView<Traslado> tblPendientes;
+    @FXML
+    private TableColumn<Traslado, String> colProd;
+    @FXML
+    private TableColumn<Traslado, String> colOrig;
+    @FXML
+    private TableColumn<Traslado, Integer> colCant;
+    @FXML
+    private Button btnCerrar;
 
     private int idTiendaUsuario = -1;
 
@@ -43,18 +48,24 @@ public class ModalTrasladosPendientesController {
         String sql = "SELECT id_tienda FROM EMPLEADOS e JOIN USUARIOS u ON e.id_empleado = u.id_empleado WHERE u.nombre_usuario = ?";
         try (Connection con = ConexionDB.getConnection(); PreparedStatement stmt = con.prepareStatement(sql)) {
             stmt.setString(1, SesionUsuario.getNombreUsuario());
-            try (ResultSet rs = stmt.executeQuery()) { if (rs.next()) idTiendaUsuario = rs.getInt("id_tienda"); }
-        } catch (SQLException e) { e.printStackTrace(); }
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    idTiendaUsuario = rs.getInt("id_tienda");
+            
+                }}
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadPendientes() {
         ObservableList<Traslado> pendientes = FXCollections.observableArrayList();
         StringBuilder sql = new StringBuilder(
-            "SELECT t.id_traslado, p.nombre AS producto, ti.nombre_tienda AS origen, t.id_tienda_destino, t.cantidad, t.estado " +
-            "FROM TRASLADOS t " +
-            "JOIN PRODUCTOS p ON t.id_producto = p.id_producto " +
-            "JOIN TIENDAS ti ON t.id_tienda_origen = ti.id_tienda " +
-            "WHERE t.estado = 'Pendiente'"
+                "SELECT t.id_traslado, p.nombre AS producto, ti.nombre_tienda AS origen, t.id_tienda_destino, t.cantidad, t.estado "
+                + "FROM TRASLADOS t "
+                + "JOIN PRODUCTOS p ON t.id_producto = p.id_producto "
+                + "JOIN TIENDAS ti ON t.id_tienda_origen = ti.id_tienda "
+                + "WHERE t.estado = 'Pendiente'"
         );
 
         if (!"ADMINISTRADOR".equalsIgnoreCase(SesionUsuario.getRolUsuario())) {
@@ -72,14 +83,18 @@ public class ModalTrasladosPendientesController {
                 t.setEstado(rs.getString("estado"));
                 pendientes.add(t);
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         tblPendientes.setItems(pendientes);
     }
 
     @FXML
     private void procesarSeleccionado() {
         Traslado t = tblPendientes.getSelectionModel().getSelectedItem();
-        if (t == null) return;
+        if (t == null) {
+            return;
+        }
 
         try {
             ModalRecibirTrasladoController.setTrasladoAProcesar(t);
@@ -90,9 +105,14 @@ public class ModalTrasladosPendientesController {
             dialog.setTitle("Confirmar Ingreso de Stock");
             dialog.setScene(new Scene(root));
             dialog.showAndWait();
-            loadPendientes(); 
-        } catch (Exception e) { e.printStackTrace(); }
+            loadPendientes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @FXML private void cerrar() { ((Stage) btnCerrar.getScene().getWindow()).close(); }
+    @FXML
+    private void cerrar() {
+        ((Stage) btnCerrar.getScene().getWindow()).close();
+    }
 }
