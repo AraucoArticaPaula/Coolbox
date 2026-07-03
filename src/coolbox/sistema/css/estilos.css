@@ -1,0 +1,324 @@
+/* ========================================================
+   estilos.css - Diseño Moderno Coolbox (CORREGIDO)
+   ======================================================== */
+
+/* Quitamos el color de fondo y padding de aqui para matar el "borde" molesto */
+.root {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 14px;
+}
+
+/* ========================================================
+   TABLAS (TableView) ESTILO MODERNO
+   ======================================================== */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 8px 8px 0 0;
+    -fx-border-width: 0 0 2px 0;
+    -fx-border-color: #E53935;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 45px;
+    -fx-padding: 0 15px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #2C3E50;
+    -fx-font-weight: 700;
+    -fx-alignment: center-left;
+}
+
+.table-row-cell {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: #E2E8F0;
+    -fx-padding: 8px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #F8FAFC;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #FEEBEB;
+    -fx-cursor: hand;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #E53935;
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-row-cell:selected .text {
+    -fx-fill: #FFFFFF;
+}
+
+.table-view .show-hide-columns-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* ========================================================
+   BOTONES DINÁMICOS
+   ======================================================== */
+.button {
+    -fx-background-color: #E53935;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6px;
+    -fx-padding: 10px 20px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(229,57,53,0.3), 8, 0, 0, 4);
+}
+
+.button:hover {
+    -fx-background-color: #F44336;
+    -fx-effect: dropshadow(three-pass-box, rgba(229,57,53,0.5), 12, 0, 0, 6);
+}
+
+.button:pressed {
+    -fx-background-color: #C62828;
+    -fx-effect: none;
+    -fx-translate-y: 1px;
+}
+
+/* ========================================================
+   CAJAS DE TEXTO Y DESPLEGABLES
+   ======================================================== */
+.text-field, .password-field, .combo-box {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-padding: 8px 12px;
+}
+
+.text-field:focused, .password-field:focused, .combo-box:focused {
+    -fx-border-color: #E53935;
+    -fx-background-color: #FFFFFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(229,57,53,0.2), 6, 0, 0, 0);
+}
+
+/* ========================================================
+   PESTAÑAS (TabPane)
+   ======================================================== */
+.tab-pane, .tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.tab {
+    -fx-background-color: transparent;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 0;
+    -fx-border-width: 0 0 3px 0;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+}
+
+.tab .tab-label {
+    -fx-text-fill: #64748B;
+    -fx-font-weight: normal;
+    -fx-font-size: 14px;
+}
+
+.tab:selected {
+    -fx-border-color: #E53935;
+    -fx-background-color: transparent;
+}
+
+.tab:selected .tab-label {
+    -fx-text-fill: #E53935;
+    -fx-font-weight: bold;
+}
+
+.tab:focus {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* ========================================================
+   BARRA DE MENÚ (MenuBar)
+   ======================================================== */
+.menu-bar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: #E2E8F0;
+    -fx-padding: 4px 10px;
+}
+
+.menu-bar .label {
+    -fx-text-fill: #2C3E50;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+}
+
+.menu:hover, .menu:showing {
+    -fx-background-color: #F8FAFC;
+    -fx-cursor: hand;
+}
+
+.context-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 2, 4);
+}
+
+.menu-item {
+    -fx-padding: 8px 15px;
+}
+
+.menu-item .label {
+    -fx-text-fill: #333333;
+}
+
+.menu-item:hover, .menu-item:focused {
+    -fx-background-color: #FEEBEB;
+}
+
+.menu-item:hover .label, .menu-item:focused .label {
+    -fx-text-fill: #E53935;
+}
+
+/* ========================================================
+   ELIMINAR LÍNEA AZUL DE ENFOQUE (Global)
+   ======================================================== */
+* {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* ========================================================
+   SELECTOR DE FECHA (DatePicker)
+   ======================================================== */
+.date-picker {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: #E53935;
+}
+
+.date-picker-popup {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 4, 4);
+}
+
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #E53935;
+    -fx-background-radius: 5px 5px 0 0;
+}
+
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup .month-year-pane .left-button .left-arrow,
+.date-picker-popup .month-year-pane .right-button .right-arrow {
+    -fx-background-color: #FFFFFF;
+}
+
+.date-picker-popup .week-number-cell {
+    -fx-text-fill: #64748B;
+}
+
+.date-picker-popup .day-cell:hover {
+    -fx-background-color: #FEEBEB;
+    -fx-cursor: hand;
+}
+
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #E53935;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup .today {
+    -fx-background-color: transparent;
+    -fx-text-fill: #E53935;
+    -fx-font-weight: bold;
+    -fx-border-color: #E53935;
+    -fx-border-width: 1px;
+    -fx-border-radius: 15px;
+}
+
+/* ========================================================
+   CARDS MODERNAS CON COLORES (Versión Final Sin Conflictos)
+   ======================================================== */
+
+/* Tarjeta Azul */
+.card-azul {
+    -fx-background-color: #4E73DF, #FFFFFF; /* Fondo 1: Línea Azul | Fondo 2: Interior Blanco */
+    -fx-background-insets: 0, 0 0 0 5;      /* Recorta 5px a la izquierda para el color */
+    -fx-background-radius: 8px;             /* Curva perfecta para ambos fondos */
+    -fx-border-width: 0;                    /* Apaga los bordes nativos que se deforman */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 4);
+    -fx-padding: 15px;
+}
+
+/* Tarjeta Verde */
+.card-verde {
+    -fx-background-color: #1CC88A, #FFFFFF;
+    -fx-background-insets: 0, 0 0 0 5;
+    -fx-background-radius: 8px;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 4);
+    -fx-padding: 15px;
+}
+
+/* Tarjeta Amarilla */
+.card-amarillo {
+    -fx-background-color: #F6C23E, #FFFFFF;
+    -fx-background-insets: 0, 0 0 0 5;
+    -fx-background-radius: 8px;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 4);
+    -fx-padding: 15px;
+}
+
+/* Tarjeta Roja */
+.card-rojo {
+    -fx-background-color: #E53935, #FFFFFF;
+    -fx-background-insets: 0, 0 0 0 5;
+    -fx-background-radius: 8px;
+    -fx-border-width: 0;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.08), 12, 0, 0, 4);
+    -fx-padding: 15px;
+}
+
+
+/* ========================================================
+   MATAR EL BORDE INTERNO DE LAS PESTAÑAS
+   ======================================================== */
+.tab-content-area {
+    -fx-background-color: transparent;
+    -fx-border-width: 0; /* Elimina la línea gris/blanca */
+    -fx-padding: 0;
+}
+
+/* Eliminar cualquier fondo residual del área de pestañas */
+.tab-pane:focused .tab-header-area .tab-header-background,
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: transparent;
+}
