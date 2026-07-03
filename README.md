@@ -14,123 +14,140 @@ El sistema centraliza en una sola plataforma cinco procesos operativos críticos
 |---|---|
 | 🔐 Seguridad | Login, roles (RBAC), recuperación de contraseña, preguntas de seguridad |
 | 📦 Almacén | Inventario por tienda, movimientos de stock, traslados entre sucursales |
-| 💰 Operaciones | Registro de ventas, cálculo automático de comisiones (Llena la Bolsa + Garantías), cuadre de caja |
-| 👥 Personal | Registro de empleados, asignación de cargos, horarios, validación de horas (FT/PT) |
+| 💰 Operaciones | Registro de ventas, cálculo automático de comisiones, cuadre de caja |
+| 👥 Personal | Registro de empleados, asignación de cargos, horarios, validación de horas |
 | 📊 Reportes | Indicadores de rendimiento por empleado y tienda |
 
 ---
 
 ## 🛠️ Tecnologías
 
-- **Java 17+** con **JavaFX** (interfaz gráfica)
-- **Microsoft SQL Server 2022** (base de datos)
+- **Java 17** (JDK portable incluido en el repo, no requiere instalación aparte)
+- **JavaFX 21** (interfaz gráfica)
+- **Microsoft SQL Server** (base de datos)
 - **JDBC** con driver `mssql-jdbc` para la conexión
 - **Patrón MVC** (Modelo - Vista - Controlador)
 - **Scene Builder** para el diseño de vistas `.fxml`
-- **Visual Studio Code** como entorno de desarrollo
+- Configuración por variables de entorno (`.env`)
 
 ---
 
 ## 🗂️ Estructura del proyecto
 
 ```
-src/coolbox/sistema/
-├── Conexion/
-│   └── ConexionDB.java          # Singleton de conexión JDBC
-├── Controladores/
-│   ├── LoginController.java
-│   ├── AlmacenController.java
-│   ├── OperacionesController.java
-│   ├── PersonalController.java
-│   ├── ReportesController.java
-│   ├── SeguridadController.java
-│   ├── SesionUsuario.java       # Sesión activa del usuario
-│   └── Modales/                 # Controladores de ventanas emergentes
-├── Modelos/                     # POJOs de las entidades
-├── Vistas/
-│   ├── Login.fxml
-│   ├── Almacen.fxml
-│   ├── Operaciones.fxml
-│   ├── Personal.fxml
-│   ├── Reportes.fxml
-│   ├── Seguridad.fxml
-│   └── Modales/                 # Ventanas emergentes (.fxml)
-└── css/
+Coolbox-master/
+├── src/coolbox/sistema/
+│   ├── Conexion/
+│   │   └── ConexionDB.java          # Conexión JDBC (lee credenciales desde .env)
+│   ├── Controladores/
+│   │   ├── LoginController.java
+│   │   ├── AlmacenController.java
+│   │   ├── OperacionesController.java
+│   │   ├── PersonalController.java
+│   │   ├── ReportesController.java
+│   │   ├── SeguridadController.java
+│   │   ├── SesionUsuario.java        # Sesión activa del usuario
+│   │   └── Modales/                  # Controladores de ventanas emergentes
+│   ├── Modelos/                      # POJOs de las entidades (Empleado, Venta, Tienda, etc.)
+│   ├── Vistas/
+│   │   ├── Login.fxml
+│   │   ├── Almacen.fxml
+│   │   ├── Operaciones.fxml
+│   │   ├── Personal.fxml
+│   │   ├── Reportes.fxml
+│   │   ├── Seguridad.fxml
+│   │   └── Modales/                  # Ventanas emergentes (.fxml)
+│   ├── css/
+│   └── fonts/                        # Fuentes personalizadas (Tw Cen MT, Font Awesome)
+├── lib/                               # JavaFX SDK + drivers (mssql-jdbc, etc.)
+├── jdk-portable/                      # JDK 17 portable, no requiere instalar Java
+├── bin/                               # Salida de compilación (generado por run.bat)
+├── run.bat                            # Lanzador para Windows
+├── run.sh                             # Lanzador para Linux/Mac
+├── .env.example                       # Plantilla de variables de entorno
+└── .env                                # Tus credenciales locales (NO se sube al repo)
 ```
 
 ---
 
 ## 🗃️ Base de datos
 
-El script SQL está en la raíz del repositorio: `dbcoolbox.sql`
+- Motor: **Microsoft SQL Server**
+- Esquema con tablas normalizadas (Tiendas, Empleados, Usuarios, Roles, Productos, Inventario, Ventas, Comisiones, Horarios, Cuadre de caja, Movimientos de inventario, Traslados, Preguntas de seguridad, etc.)
+- Esquema de seguridad **RBAC** (Roles → Permisos)
 
-Incluye:
-- **16 tablas** normalizadas hasta 3FN
-- **13 procedimientos almacenados** transaccionales (`sp_RegistrarVenta`, `sp_RealizarTraslado`, etc.)
-- **Triggers** de auditoría de inventario
-- **Índices no agrupados** en columnas de búsqueda frecuente
-- **Esquema de seguridad RBAC** (Roles → Permisos)
-- Modelo de recuperación `FULL` para consistencia ante fallos
-
-### Tablas principales
-
-`TIENDAS` · `EMPLEADOS` · `USUARIOS` · `ROLES` · `PERMISOS` · `PRODUCTOS` · `CATEGORIAS` · `INVENTARIO` · `VENTAS` · `DETALLE_VENTA` · `COMISIONES` · `HORARIOS` · `CUADRE_CAJA` · `MOVIMIENTOS_INVENTARIO` · `TRASLADOS` · `PREGUNTAS_SEGURIDAD`
+> El script de creación de la base de datos se gestiona por separado; consulta con el equipo si necesitas la última versión del `.sql`.
 
 ---
 
 ## ⚙️ Requisitos previos
 
-- Java 17 o superior
-- JavaFX SDK 17+
-- Microsoft SQL Server 2022 (o Express)
-- Driver JDBC: `mssql-jdbc-12.x.x.jre11.jar`
+- Windows 10/11 (el proyecto incluye JDK portable, no necesitas instalar Java aparte)
+- Microsoft SQL Server (local o remoto — ver `GUIA_BD_REMOTA.md` para conexión remota)
+- Git con soporte **Git LFS** (el repo incluye binarios pesados: JDK portable y librerías nativas de JavaFX)
 
 ---
 
 ## 🚀 Configuración e instalación
 
 **1. Clonar el repositorio**
+
+Asegúrate de tener [Git LFS](https://git-lfs.github.com/) instalado antes de clonar, ya que el JDK portable y las DLLs de JavaFX se manejan con LFS:
+
 ```bash
-git clone https://github.com/tu-usuario/coolbox.git
+git lfs install
+git clone https://github.com/AraucoArticaPaula/Coolbox.git
 ```
 
 **2. Crear la base de datos**
 
-Ejecutar el script en SQL Server Management Studio (SSMS):
-```sql
--- Ejecutar en orden:
-dbcoolbox.sql
-dbcoolbox_preguntas_seguridad.sql   -- tabla de recuperación de contraseña
-```
+Ejecuta el script SQL correspondiente en SQL Server Management Studio (SSMS) para crear el esquema `CoolboxDB`.
 
 **3. Configurar la conexión**
 
-Editar `ConexionDB.java` con tus credenciales:
-```java
-String url = "jdbc:sqlserver://localhost:1433;databaseName=CoolboxDB;encrypt=false";
-String user = "tu_usuario";
-String password = "tu_contraseña";
+Copia `.env.example` a `.env` y completa tus credenciales:
+
+```bash
+copy .env.example .env
 ```
 
-**4. Agregar el driver JDBC al classpath**
+```env
+DB_HOST=localhost
+DB_PORT=1433
+DB_NAME=CoolboxDB
+DB_USER=coolbox_app
+DB_PASSWORD=TuContraseñaAqui
+DB_ENCRYPT=false
+```
 
-En VS Code, añadir el `.jar` de `mssql-jdbc` en `.vscode/settings.json` o en el `classpath` del proyecto.
+> Para conexión a un servidor SQL en otra PC de la red, consulta `GUIA_BD_REMOTA.md`.
 
-**5. Ejecutar**
+**4. Ejecutar**
 
-Correr la clase principal del proyecto desde VS Code o tu IDE favorito.
+En Windows, simplemente corre:
+
+```bash
+run.bat
+```
+
+Este script:
+- Detecta y usa el JDK portable incluido en `jdk-portable/`
+- Carga las variables de entorno desde `.env`
+- Compila el proyecto en `bin/`
+- Copia los recursos (Vistas, CSS, fuentes)
+- Lanza la aplicación
+
+En Linux/Mac usa `run.sh` (requiere Java 17+ instalado en el sistema).
 
 ---
 
 ## 👤 Primer acceso
 
-Al ejecutar el sistema por primera vez, crear un usuario administrador directamente en la BD:
-```sql
-EXEC sp_CrearUsuario
-  @id_empleado   = 1,
-  @nombre_usuario = 'admin',
-  @contrasena    = 'tu_clave',
-  @correo        = 'admin@coolbox.pe';
-```
+Al ejecutar el sistema por primera vez, crea un usuario administrador directamente en la base de datos usando el procedimiento almacenado correspondiente, o consulta con el equipo el usuario de pruebas ya configurado.
 
 ---
+
+## 📝 Notas
+
+- El proyecto usa codificación **UTF-8 sin BOM** en todos los archivos `.fxml` y `.java` — respeta esto al editar para evitar problemas de tildes/caracteres especiales.
+- No subas tu archivo `.env` al repositorio (ya está en `.gitignore`).
